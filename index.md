@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Enterprise architecture portfolio, experience, and selected projects.">
-  <title>Alex Morgan | Enterprise Architect</title>
+  <title>Afzaal Shabbir | Enterprise Architect</title>
 
   <style>
     :root {
