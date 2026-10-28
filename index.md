@@ -251,7 +251,7 @@
 <body>
   <header>
     <div class="wrap topbar">
-      <a class="brand" href="#home">Alex Morgan</a>
+      <a class="brand" href="#home">Afzaal Shabbir</a>
       <nav aria-label="Main navigation">
         <a href="#about">About</a>
         <a href="#expertise">Expertise</a>
