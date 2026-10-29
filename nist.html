@@ -1,0 +1,2247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CISO Security Program Management 2026</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='28' rx='7' fill='%23f4f5f7' stroke='%230e1726' stroke-width='3'/%3E%3Crect x='9' y='9' width='14' height='14' rx='3' fill='%231d4ed8'/%3E%3C/svg%3E">
+<meta name="description" content="CISO security program management, based on the CISO Security Mind Map 2026: security domains a CISO is accountable for, mapped to the NIST CSF functions, with a maturity rating per topic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+	--accent:#1d4ed8; --accent-deep:#1a3fae; --accent-dim:rgba(29,78,216,.12); --accent-soft:#eaf0ff;
+	--bg:#f4f5f7; --bg-1:#ffffff; --bg-2:#eaecf0;
+	--line:rgba(14,23,38,.09); --line-2:rgba(14,23,38,.15); --line-3:rgba(14,23,38,.26);
+	--grid:rgba(14,23,38,.035);
+	--text:#0e1726; --text-2:#465065; --muted:#5d6678;
+	--warn:#c2410c; --warn-dim:rgba(194,65,12,.12);
+	--surface:rgba(255,255,255,.92);
+	--shadow:0 1px 2px rgba(14,23,38,.04),0 18px 48px -24px rgba(14,23,38,.18);
+	--sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+	--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+	--serif:"Instrument Serif",ui-serif,Georgia,serif;
+	--ease:cubic-bezier(.2,.7,.1,1);
+	--pad:clamp(16px,3.2vw,48px);
+	/* maturity scale: red → orange → light green → dark green → blue */
+	--l1:#c0564e; --l2:#c97b3e; --l3:#8fbf91; --l4:#4c8659; --l5:#40639f;
+	--sev-med:#d2b25e;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+	margin:0; background-color:var(--bg); color:var(--text);
+	font-family:var(--sans); font-size:15px; line-height:1.5;
+	background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+	background-size:56px 56px;
+	-webkit-font-smoothing:antialiased;
+}
+button{font:inherit}
+.wrap{max-width:1760px; margin:0 auto; padding:0 var(--pad)}
+
+/* ---------- Top bar ---------- */
+.topbar{border-bottom:1px solid var(--line); background:rgba(244,245,247,.86); backdrop-filter:blur(10px)}
+.topbar-in{display:flex; align-items:center; justify-content:space-between; gap:16px; min-height:68px; flex-wrap:wrap; padding-top:10px; padding-bottom:10px}
+.mark{display:flex; align-items:center; gap:12px; font-weight:500; letter-spacing:-.01em; font-size:15px}
+.mark .sq{width:24px; height:24px; border:1.5px solid var(--text); border-radius:6px; position:relative; flex:none}
+.mark .sq::after{content:""; position:absolute; inset:5px; background:var(--accent); border-radius:2px}
+.mark small{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:400; margin-top:1px}
+.actions{display:flex; gap:8px; flex-wrap:wrap}
+.modes{display:inline-flex; align-items:center; background:var(--bg-2); border-radius:999px; padding:3px; margin-left:auto}
+.modes-k{font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:0 10px 0 12px}
+.modes button{border:0; background:none; padding:7px 14px; border-radius:999px; font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-2); cursor:pointer; white-space:nowrap; transition:background .2s var(--ease),color .2s var(--ease)}
+.modes button:hover{color:var(--text)}
+.modes button.on{background:var(--text); color:#fff}
+.modebar{background:var(--accent-soft); border-bottom:1px solid rgba(29,78,216,.18)}
+.modebar[data-mode="blank"]{background:var(--bg-2); border-bottom-color:var(--line-2)}
+.modebar-in{display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding-top:10px; padding-bottom:10px}
+.modebar p{margin:0; font-size:13.5px; color:var(--text-2); max-width:90ch}
+.modebar p b{color:var(--text); font-weight:500}
+.mb-dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-dim); flex:none}
+.modebar[data-mode="blank"] .mb-dot{background:var(--muted); box-shadow:0 0 0 4px var(--line)}
+.modebar .btn{padding:7px 13px}
+.btn{
+	font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase;
+	color:var(--text-2); background:var(--bg-1); border:1px solid var(--line-2); border-radius:999px;
+	padding:9px 15px; cursor:pointer; transition:border-color .2s var(--ease),color .2s var(--ease),background .2s var(--ease);
+	display:inline-flex; align-items:center; gap:8px; white-space:nowrap;
+}
+.btn:hover{border-color:var(--line-3); color:var(--text)}
+.btn.primary{background:var(--text); border-color:var(--text); color:#fff}
+.btn.primary:hover{background:var(--accent); border-color:var(--accent)}
+.btn.danger{color:var(--warn); border-color:rgba(194,65,12,.35); background:var(--warn-dim)}
+.btn svg{width:13px; height:13px}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+
+/* ---------- Hero ---------- */
+.hero{padding-top:clamp(36px,6vw,72px); padding-bottom:28px}
+.eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-2); display:flex; align-items:center; gap:10px; margin:0}
+.eyebrow .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-dim)}
+h1{font-size:clamp(36px,5.4vw,68px); font-weight:460; letter-spacing:-.045em; line-height:1.02; margin:18px 0 18px}
+h1 em{font-family:var(--serif); font-style:italic; font-weight:400; color:var(--accent); font-size:1.08em; letter-spacing:-.02em}
+.lead{max-width:none; color:var(--text-2); font-size:17px; margin:0}
+.based{display:inline-flex; align-items:center; gap:8px; margin:0 0 20px; padding:6px 12px 6px 10px; border:1px solid var(--line-2); border-radius:999px; background:var(--surface); font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-2)}
+.based::before{content:""; width:14px; height:14px; flex:none; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%231d4ed8' stroke-width='1.5'%3E%3Ccircle cx='8' cy='8' r='2'/%3E%3Ccircle cx='2.5' cy='3' r='1.5'/%3E%3Ccircle cx='13.5' cy='3' r='1.5'/%3E%3Ccircle cx='2.5' cy='13' r='1.5'/%3E%3Ccircle cx='13.5' cy='13' r='1.5'/%3E%3Cpath d='M6.5 6.8 3.7 4.1M9.5 6.8l2.8-2.7M6.5 9.2l-2.8 2.7M9.5 9.2l2.8 2.7'/%3E%3C/svg%3E") center/contain no-repeat}
+.based b{font-weight:500; color:var(--text)}
+
+.panel{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:var(--shadow)}
+.stats{grid-template-columns:minmax(120px,.7fr) minmax(170px,1fr) minmax(240px,1.4fr) minmax(240px,1.4fr); margin-top:32px}
+.stats .stat.wide{grid-column:1 / -1; display:grid; grid-template-columns:auto 1fr; align-items:center; gap:10px 24px; padding-top:16px; padding-bottom:16px}
+.stats .stat.wide .k{grid-row:span 2; align-self:center}
+.stats .stat.wide .dist{margin-top:0}
+.stats .stat.wide .dist-legend{margin-top:0}
+.ks{display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--line-2); margin:0 4px 0 8px; vertical-align:0}
+.ks:first-of-type{margin-left:0}
+.ks[data-s="risk"]{background:var(--l2)} .ks[data-s="fail"]{background:var(--l1)}
+.stat{background:var(--surface); padding:18px 20px; min-width:0}
+.k{display:block; font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+.v{display:block; font-size:36px; font-weight:460; letter-spacing:-.035em; line-height:1.1; margin-top:8px}
+.v small{font-size:17px; color:var(--muted); letter-spacing:0; margin-left:2px}
+.sub{display:block; font-size:13px; color:var(--text-2); margin-top:2px}
+.dist{display:flex; height:12px; border-radius:99px; overflow:hidden; background:var(--bg-2); margin-top:14px}
+.dist i{display:block; height:100%; transition:width .5s var(--ease)}
+.dist-legend{display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:12px; font-family:var(--mono); font-size:11px; color:var(--text-2); letter-spacing:.02em}
+.dist-legend span{display:inline-flex; align-items:center; gap:6px}
+.dist-legend b{width:9px; height:9px; border-radius:2px; display:inline-block}
+
+/* ---------- Minimap ---------- */
+.minimap{grid-template-columns:1fr 1fr 2fr 1fr 1fr; margin-top:12px}
+.mm-g{background:var(--surface); padding:12px 10px 12px; min-width:0}
+.mm-h{margin-bottom:10px; padding:0 2px}
+.mm-h b{display:block; font-weight:500; font-size:14px; letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mm-h b span{font-family:var(--mono); font-size:10.5px; font-weight:400; color:var(--muted); letter-spacing:.08em; margin-right:7px}
+.mm-track{height:5px; border-radius:99px; background:var(--bg-2); overflow:visible; position:relative; margin-top:8px}
+.mm-track i{position:absolute; inset:0 auto 0 0; width:0; border-radius:99px; transition:width .5s var(--ease),background .3s var(--ease)}
+.mm-h em{display:block; margin-top:6px; font-style:normal; font-family:var(--mono); font-size:10.5px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; white-space:normal; line-height:1.4}
+.mm-list{display:flex; flex-direction:column; gap:4px}
+/* Protect: a real two-column grid filled top-to-bottom, so both columns start at the same height */
+.mm-g.wide .mm-list{display:grid; grid-template-columns:1fr 1fr; grid-auto-flow:column; align-content:start; gap:4px}
+.mm-t{
+	--c:var(--bg-2); --ct:var(--muted);
+	display:flex; align-items:flex-start; gap:6px; width:100%; min-width:0; text-align:left;
+	border:1px solid var(--line); background:var(--bg-1); border-radius:7px; padding:4px 5px 4px 4px;
+	font-size:11.5px; color:var(--text); cursor:pointer;
+	transition:background .2s var(--ease),border-color .2s var(--ease),opacity .2s var(--ease);
+}
+.mm-t:hover{border-color:var(--line-3)}
+.mm-t i{flex:none; width:16px; height:16px; margin-top:1px; border-radius:4px; display:grid; place-items:center; font-style:normal; font-family:var(--mono); font-size:9.5px; font-weight:500; line-height:1; background:var(--c); color:var(--ct); transition:background .2s var(--ease)}
+.mm-t{height:40px}
+.mm-n{flex:1; min-width:0; white-space:normal; overflow-wrap:break-word; line-height:1.3; margin-top:1px;
+	display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+	.mm-ind{flex:none; display:flex; flex-direction:column; align-items:flex-end; gap:3px; padding-top:1px}
+	.mm-k{flex:none; display:flex; gap:2px; font-style:normal; padding-top:4px}
+	.mm-k s{width:6px; height:6px; border-radius:50%; background:transparent; box-shadow:inset 0 0 0 1px var(--line-3)}
+	.mm-k s[data-s="pass"]{background:var(--l4); box-shadow:none}
+	.mm-k s[data-s="risk"]{background:var(--l2); box-shadow:none}
+	.mm-k s[data-s="fail"]{background:var(--l1); box-shadow:none}
+	
+	.mm-rf{flex:none; display:flex; gap:3px; font-style:normal}
+	.mm-rf:empty{display:none}
+	.mm-rf b{font-family:var(--mono); font-size:9px; font-weight:500; line-height:1; padding:2px 3px; border-radius:4px; background:var(--c); color:var(--ct)}
+	
+	/* ---------- Risks & findings on cards ---------- */
+	.chip{display:inline-block; font-family:var(--mono); font-size:10px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; padding:3px 8px; border-radius:99px; background:var(--c); color:var(--ct); white-space:nowrap; line-height:1.3}
+	.rf{display:flex; flex-direction:column; gap:5px}
+	.rf-i{display:flex; align-items:center; gap:7px; width:100%; min-width:0; text-align:left; border:1px solid var(--line); background:var(--bg-1); border-radius:8px; padding:6px 8px; font-size:12.5px; color:var(--text); cursor:pointer; transition:border-color .2s var(--ease)}
+	.rf-i:hover{border-color:var(--line-3)}
+	.rf-i .chip{flex:none; font-size:9px; padding:2px 6px}
+	.rf-id{flex:none; font-family:var(--mono); font-size:10.5px; color:var(--muted)}
+	.rf-t{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+	.rf-st{flex:none; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+	.rf-st.od{color:var(--l1); font-weight:500}
+	.rf-i.closed{opacity:.55}
+	.rf-i.closed .rf-t{text-decoration:line-through}
+	.rf-empty{margin:0; font-size:12.5px; color:var(--muted)}
+	.rf-add{display:flex; gap:6px; margin-top:7px; flex-wrap:wrap}
+	.lnk{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); background:none; border:1px dashed rgba(29,78,216,.35); border-radius:7px; padding:5px 9px; cursor:pointer; transition:background .2s var(--ease)}
+	.lnk:hover{background:var(--accent-soft)}
+	
+	/* ---------- Register ---------- */
+	.register{padding-top:8px; padding-bottom:72px}
+	.register h2{font-size:clamp(28px,3.4vw,42px); font-weight:460; letter-spacing:-.035em; line-height:1.05; margin:14px 0 10px}
+	.register h2 em{font-family:var(--serif); font-style:italic; font-weight:400; color:var(--accent); font-size:1.08em; letter-spacing:-.02em}
+	.reg-lead{margin:0; color:var(--text-2); max-width:64ch}
+	.reg-bar{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:24px 0 12px}
+	.tabs{display:inline-flex; background:var(--bg-2); border-radius:999px; padding:3px}
+	.tab{border:0; background:none; padding:7px 14px; border-radius:999px; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-2); cursor:pointer}
+	.tab.on{background:var(--bg-1); color:var(--text); box-shadow:0 1px 2px rgba(14,23,38,.1)}
+	.tab span{margin-left:6px; color:var(--muted)}
+	.sel{font:inherit; font-size:13px; color:var(--text); padding:8px 32px 8px 13px; border:1px solid var(--line-2); border-radius:999px; background:var(--bg-1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%235d6678' stroke-width='1.5'%3E%3Cpath d='m2 3.5 3 3 3-3'/%3E%3C/svg%3E") no-repeat right 12px center/10px; appearance:none; -webkit-appearance:none; max-width:280px; cursor:pointer}
+	.sel:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim)}
+	.btn .cnt{font-size:10.5px; background:var(--bg-2); color:var(--text); padding:1px 6px; border-radius:99px; letter-spacing:0}
+	.reg-wrap{background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:auto; box-shadow:var(--shadow)}
+	table.reg{width:100%; border-collapse:collapse; font-size:13.5px; min-width:980px}
+	.reg th{text-align:left; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); font-weight:400; padding:12px 14px; border-bottom:1px solid var(--line-2); white-space:nowrap; background:var(--bg-1)}
+	.reg td{padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+	.reg tbody tr{cursor:pointer; transition:background .15s var(--ease)}
+	.reg tbody tr:hover,.reg tbody tr:focus-visible{background:#f6f8fc}
+	.reg tbody tr:last-child td{border-bottom:0}
+	.reg tr.closed td{color:var(--muted)}
+	.reg tr.closed .tt b{text-decoration:line-through}
+	.reg .mono{font-family:var(--mono); font-size:12px; color:var(--text-2)}
+	.reg .nw{white-space:nowrap}
+	.reg .tt{min-width:240px}
+	.reg .tt b{display:block; font-weight:500}
+	.reg .tt small{display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; color:var(--text-2); font-size:12.5px; margin-top:2px; line-height:1.4}
+	.jump{font-family:var(--mono); font-size:11px; color:var(--accent); background:var(--bg-1); border:1px solid rgba(29,78,216,.3); border-radius:6px; padding:2px 6px; cursor:pointer}
+	.jump:hover{background:var(--accent-soft)}
+	.tp{display:block; margin-top:4px; font-size:12px; color:var(--text-2); max-width:180px}
+	.st{font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; border:1px solid var(--line-2); border-radius:99px; padding:2px 8px; color:var(--text-2)}
+	.od{display:block; margin-top:3px; font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--l1); font-weight:500}
+	.reg-empty{margin:0; padding:30px 20px; text-align:center; color:var(--muted); font-size:14px}
+	
+	/* ---------- Dialog ---------- */
+	.dlg{border:0; padding:0; border-radius:16px; width:min(640px,calc(100vw - 32px)); max-height:calc(100vh - 32px); background:var(--bg-1); color:var(--text); box-shadow:0 30px 80px -20px rgba(14,23,38,.5)}
+	.dlg::backdrop{background:rgba(14,23,38,.45); backdrop-filter:blur(3px)}
+	.dlg form{display:flex; flex-direction:column; max-height:calc(100vh - 32px)}
+	.dlg header{position:relative; padding:20px 22px 4px}
+	.dlg h3{margin:10px 0 0; font-size:22px; font-weight:460; letter-spacing:-.025em}
+	.dlg .x{position:absolute; top:16px; right:16px; width:32px; height:32px; border-radius:50%; border:1px solid var(--line-2); background:var(--bg-1); cursor:pointer; font-size:18px; line-height:1; color:var(--text-2)}
+	.dlg .x:hover{border-color:var(--line-3); color:var(--text)}
+	.dlg-body{display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:16px 22px 6px; overflow:auto}
+	.fld{display:flex; flex-direction:column; gap:6px; min-width:0}
+	.fld > span{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+	.fld input,.fld select,.fld textarea{font:inherit; font-size:14px; padding:9px 11px; border:1px solid var(--line-2); border-radius:9px; background:#fff; color:var(--text); outline:none; width:100%}
+	.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim)}
+	.fld textarea{resize:vertical; min-height:76px}
+	.full{grid-column:1 / -1}
+	.grid3{grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr 150px; gap:14px}
+	.score{display:flex; align-items:center; gap:10px; height:41px; font-size:22px; font-weight:460; letter-spacing:-.02em}
+	.dlg[data-type="risk"] .finding-only,.dlg[data-type="finding"] .risk-only{display:none}
+	.dlg footer{display:flex; align-items:center; gap:8px; padding:16px 22px 20px; margin-top:12px; border-top:1px solid var(--line)}
+	.btn.del{color:var(--l1); border-color:rgba(192,86,78,.35)}
+	.btn.del.armed{background:var(--l1); color:#fff; border-color:var(--l1)}
+	
+	/* ---------- KPIs ---------- */
+	.kpis{display:flex; flex-direction:column; gap:6px}
+	.kpi{border:1px solid var(--line); border-radius:10px; padding:10px 10px 9px; background:var(--bg-1)}
+	.kpi-top{display:flex; justify-content:space-between; align-items:flex-start; gap:8px}
+	.kpi-n{font-size:13px; font-weight:500; line-height:1.3; letter-spacing:-.005em}
+	.kpi-st{flex:none; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; padding:2px 7px; border-radius:99px; background:var(--bg-2); color:var(--muted); white-space:nowrap; transition:background .2s var(--ease),color .2s var(--ease)}
+	.kpi-st[data-s="pass"]{background:var(--l4); color:#fff}
+	.kpi-st[data-s="risk"]{background:var(--l2); color:#fff}
+	.kpi-st[data-s="fail"]{background:var(--l1); color:#fff}
+	.kpi-d{margin:3px 0 9px; font-size:12px; color:var(--text-2); line-height:1.4}
+	.kpi-bar{position:relative; height:8px}
+	.kpi-bands{display:flex; height:100%; border-radius:99px; overflow:hidden}
+	.kpi-bands i{display:block; height:100%}
+	.kpi-bands .bf{background:color-mix(in srgb,var(--l1) 22%,#fff)}
+	.kpi-bands .br{background:color-mix(in srgb,var(--l2) 38%,#fff)}
+	.kpi-bands .bp{background:color-mix(in srgb,var(--l4) 38%,#fff)}
+	.kpi-mk{position:absolute; top:-4px; width:4px; height:16px; border-radius:2px; background:var(--text); transform:translateX(-50%); box-shadow:0 0 0 2px #fff; display:none; transition:left .3s var(--ease)}
+	.kpi-ax{display:flex; justify-content:space-between; margin-top:4px; font-family:var(--mono); font-size:9.5px; color:var(--muted)}
+	.kpi-row{display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:6px}
+	.kpi-th{font-family:var(--mono); font-size:10.5px; color:var(--text-2); letter-spacing:.01em; line-height:1.35}
+	.kpi-dir{display:block; color:var(--muted); font-size:10px}
+	.kpi-in{flex:none; display:inline-flex; align-items:center; gap:4px; font-family:var(--mono); font-size:12px; color:var(--muted)}
+	.kpi-in input{width:64px; font-family:var(--mono); font-size:12.5px; padding:5px 6px; border:1px solid var(--line-2); border-radius:6px; text-align:right; background:#fff; color:var(--text); outline:none; -moz-appearance:textfield}
+	.kpi-in input::-webkit-outer-spin-button,.kpi-in input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+	.kpi-in input:focus{border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim)}
+	.mm-t.rated{background:color-mix(in srgb,var(--c) 14%,#fff); border-color:color-mix(in srgb,var(--c) 42%,#fff)}
+	.mm-t.dim{opacity:.3}
+	@keyframes flash{0%{box-shadow:0 0 0 0 rgba(29,78,216,0)}15%{box-shadow:0 0 0 5px rgba(29,78,216,.35)}100%{box-shadow:0 0 0 0 rgba(29,78,216,0)}}
+	.card.flash{animation:flash 1.8s var(--ease); border-color:rgba(29,78,216,.45)}
+	
+	.scale{grid-template-columns:repeat(5,1fr); margin-top:12px}
+	.lvl{background:var(--surface); padding:14px 16px; display:grid; grid-template-columns:30px 1fr; grid-template-rows:30px auto; gap:8px 12px; align-content:start}
+	.lvl .sw{width:30px; height:30px; border-radius:7px; font-family:var(--mono); font-size:13px; display:grid; place-items:center; font-weight:500}
+	.lvl b{font-weight:500; font-size:14px; align-self:center}
+	.lvl p{grid-column:1 / -1; margin:0; font-size:12.5px; color:var(--text-2); line-height:1.4; min-height:calc(1.4em * 3)}
+	
+	/* ---------- Toolbar ---------- */
+	.toolbar{position:sticky; top:var(--vb-h,64px); z-index:20; background:rgba(244,245,247,.9); backdrop-filter:blur(10px); border-top:1px solid var(--line); border-bottom:1px solid var(--line); margin-top:28px}
+	.toolbar-in{display:flex; align-items:center; gap:10px; padding-top:10px; padding-bottom:10px; flex-wrap:wrap}
+	.search{position:relative; flex:0 1 340px; min-width:200px}
+	.search svg{position:absolute; left:13px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--muted)}
+	.search input{
+		width:100%; font:inherit; font-size:14px; color:var(--text); background:var(--bg-1);
+		border:1px solid var(--line-2); border-radius:999px; padding:9px 14px 9px 36px; outline:none;
+		transition:border-color .2s var(--ease),box-shadow .2s var(--ease);
+	}
+	.search input::placeholder{color:var(--muted)}
+	.search input:focus{border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-dim)}
+	.qcount{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent)}
+	.spacer{flex:1}
+	.hint{font-family:var(--mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); display:none}
+	.hint.show{display:inline}
+	
+	/* ---------- Board ---------- */
+	.board-wrap{overflow-x:auto; padding:28px 0 72px; scrollbar-width:thin}
+	.board{
+		--gap:72px; --head-h:176px;
+		display:grid; gap:var(--gap); max-width:2400px; margin:0 auto; padding:0 var(--pad);
+		grid-template-columns:minmax(320px,1fr) minmax(320px,1fr) minmax(1000px,3fr) minmax(320px,1fr) minmax(320px,1fr);
+		align-items:start;
+	}
+	/* each function sits in its own lane */
+	.col{
+		position:relative; display:flex; flex-direction:column; gap:12px; min-width:0;
+		background:rgba(14,23,38,.035); border:1px solid var(--line-2); border-radius:20px; padding:10px;
+	}
+	/* connector between functions: dashed line + arrow badge, centred on the header */
+	.col:not(:last-child)::before{
+		content:""; position:absolute; top:calc(10px + var(--head-h) / 2); right:calc(-1 * var(--gap) - 1px);
+		width:var(--gap); border-top:2px dashed var(--line-3);
+	}
+	.col:not(:last-child)::after{
+		content:""; position:absolute; z-index:2; width:36px; height:36px; border-radius:50%;
+		top:calc(10px + var(--head-h) / 2 - 18px); right:calc(-1 * var(--gap) / 2 - 19px);
+		background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8h10M9 4l4 4-4 4'/%3E%3C/svg%3E") center/16px no-repeat;
+		box-shadow:0 0 0 5px var(--bg),0 6px 16px -6px rgba(29,78,216,.6);
+	}
+	.col-head{
+		position:relative; background:var(--text); color:#fff; border-radius:14px; padding:16px 18px; box-shadow:var(--shadow);
+		height:var(--head-h); display:flex; flex-direction:column; flex:none;
+	}
+	.ch-top{display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.55)}
+	.col-head h2{font-size:26px; font-weight:460; letter-spacing:-.03em; margin:10px 0 3px; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+	.col-head p{margin:0; font-size:13px; color:rgba(255,255,255,.66); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+	.ch-avg{margin-top:auto}
+	.ch-track{height:6px; border-radius:99px; background:rgba(255,255,255,.14); overflow:visible; position:relative}
+	.ch-track i{position:absolute; inset:0 auto 0 0; width:0; background:rgba(255,255,255,.5); border-radius:99px; transition:width .5s var(--ease),background .3s var(--ease)}
+	.ch-txt{display:block; margin-top:8px; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.7)}
+	
+	.cards{display:flex; flex-direction:column; gap:12px}
+	.col.wide .cards{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:start}
+	.subcol{display:flex; flex-direction:column; gap:12px; min-width:0}
+	
+	/* ---------- Card ---------- */
+	.card{
+		--lc:transparent; --lt:var(--text);
+		position:relative; background:var(--surface); border:1px solid var(--line); border-radius:12px;
+		padding:16px 16px 14px 18px; box-shadow:0 1px 2px rgba(14,23,38,.04);
+		transition:opacity .25s var(--ease),border-color .25s var(--ease),box-shadow .25s var(--ease);
+	}
+	.card::before{content:""; position:absolute; left:-1px; top:14px; bottom:14px; width:3px; border-radius:0 3px 3px 0; background:var(--lc); transition:background .25s var(--ease)}
+	.card:hover{border-color:var(--line-2); box-shadow:var(--shadow)}
+	.card[data-level="1"]{--lc:var(--l1); --lt:#fff} .card[data-level="2"]{--lc:var(--l2); --lt:#fff}
+	.card[data-level="3"]{--lc:var(--l3); --lt:#0e1726} .card[data-level="4"]{--lc:var(--l4); --lt:#fff} .card[data-level="5"]{--lc:var(--l5); --lt:#fff}
+	.card.dim{opacity:.26}
+	.card-head{display:flex; justify-content:space-between; align-items:center; gap:8px}
+	.cid{font-family:var(--mono); font-size:11px; letter-spacing:.08em; color:var(--muted)}
+	.badge{font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding:3px 8px; border-radius:99px; background:var(--bg-2); color:var(--muted); white-space:nowrap; transition:background .25s var(--ease),color .25s var(--ease)}
+	.card.rated .badge{background:var(--lc); color:var(--lt)}
+	.card h3{font-size:16.5px; font-weight:500; letter-spacing:-.015em; line-height:1.28; margin:10px 0 6px}
+	.one{margin:0 0 8px; font-size:14px; color:var(--text); line-height:1.45}
+	.desc p{margin:0; font-size:13.5px; color:var(--text-2); line-height:1.55}
+	.desc.clamp p{display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+	.more{
+		display:inline-flex; align-items:center; gap:5px; margin-top:4px; padding:3px 0;
+		background:none; border:0; cursor:pointer; color:var(--accent);
+		font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase;
+	}
+	.more:hover{color:var(--accent-deep)}
+	.more svg{width:10px; height:10px; transition:transform .25s var(--ease)}
+	.more[aria-expanded="true"] svg{transform:rotate(180deg)}
+	.kw-label{margin:12px 0 6px; font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+	.kw{list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap; gap:5px}
+	.kw li{font-size:12px; line-height:1.35; color:var(--text-2); background:var(--bg-1); border:1px solid var(--line); border-radius:6px; padding:3px 7px; transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease)}
+	.kw li.hit{background:var(--accent-soft); color:var(--accent-deep); border-color:rgba(29,78,216,.28)}
+	
+	.mat{margin-top:14px; padding-top:12px; border-top:1px dashed var(--line-2)}
+	.mat-row{display:flex; justify-content:space-between; align-items:baseline; gap:8px}
+	.mat-k{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+	.mat-v{font-size:12.5px; font-weight:500; color:var(--muted)}
+	.card.rated .mat-v{color:var(--text)}
+	.seg{display:grid; grid-template-columns:repeat(5,1fr); gap:4px; margin-top:8px}
+	.seg button{
+		height:30px; border:1px solid var(--line-2); border-radius:6px; background:var(--bg-1);
+		font-family:var(--mono); font-size:12px; color:var(--muted); cursor:pointer; padding:0;
+		transition:background .18s var(--ease),border-color .18s var(--ease),color .18s var(--ease);
+	}
+	.seg button:hover{border-color:var(--line-3)}
+	.seg button.pv{background:var(--accent-soft); border-color:rgba(29,78,216,.3); color:var(--accent-deep)}
+	.seg button.fill{background:var(--lc); border-color:var(--lc); color:var(--lt)}
+	.seg button[aria-checked="true"]{font-weight:500; box-shadow:inset 0 0 0 1px rgba(255,255,255,.45)}
+	
+	footer{border-top:1px solid var(--line); padding:22px 0 40px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+	footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+	
+	/* ---------- Target markers & owner on cards ---------- */
+	.cown{flex:1; min-width:0; display:flex; align-items:center; gap:5px; font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; color:var(--muted); white-space:nowrap; overflow:hidden}
+	.cown span{overflow:hidden; text-overflow:ellipsis}
+	.mat-row{flex-wrap:wrap}
+	.tgt{margin-left:6px; font-family:var(--mono); font-size:10.5px; font-weight:400; letter-spacing:.03em; color:var(--text-2)}
+	.seg{margin-bottom:7px}
+	.seg button{position:relative}
+	.seg button.tg{border-style:dashed; border-color:var(--text-2)}
+	.seg button.tg.fill{border-style:solid}
+	.seg button.tg::after{content:""; position:absolute; left:50%; bottom:-8px; transform:translateX(-50%); border-left:4px solid transparent; border-right:4px solid transparent; border-bottom:5px solid var(--text)}
+	.tmark{position:absolute; top:-3px; bottom:-3px; width:2px; border-radius:1px; background:var(--text); transform:translateX(-50%); display:none}
+	.ch-track .tmark{background:#fff; top:-5px; bottom:-5px}
+	.rvdot{display:inline-block; flex:none; width:7px; height:7px; border-radius:50%; background:var(--rc,var(--muted))}
+	.rvdot[data-r="never"]{background:transparent; box-shadow:inset 0 0 0 1.3px var(--muted)}
+	.muted{color:var(--muted)}
+	
+	/* ---------- View tabs ---------- */
+	.viewbar{position:sticky; top:0; z-index:30; background:rgba(244,245,247,.94); backdrop-filter:blur(10px); border-top:1px solid var(--line); border-bottom:1px solid var(--line-2)}
+	.viewbar-in{display:flex; align-items:center; gap:16px; padding-top:8px; padding-bottom:8px}
+	.vtabs{display:flex; gap:4px; background:var(--bg-2); border-radius:14px; padding:4px}
+	.vtab{display:flex; flex-direction:column; align-items:flex-start; gap:1px; border:0; background:none; border-radius:10px; padding:7px 18px 8px; cursor:pointer; text-align:left; color:var(--text-2); transition:background .2s var(--ease),color .2s var(--ease)}
+	.vtab b{font-size:14.5px; font-weight:500; letter-spacing:-.01em}
+	.vtab small{font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+	.vtab:hover{color:var(--text)}
+	.vtab.on{background:var(--text); color:#fff; box-shadow:0 6px 16px -8px rgba(14,23,38,.55)}
+	.vtab.on small{color:rgba(255,255,255,.62)}
+	.vb-note{margin:0; font-size:13px; color:var(--text-2)}
+	.view[hidden]{display:none !important}
+	
+	/* ---------- Direction: summary & minimap ---------- */
+	.dstats{grid-template-columns:repeat(4,minmax(0,1fr))}
+	.dstats .v small{font-size:17px}
+	/* direction minimap tiles: neutral grey, prominent current -> target, title only */
+	.dm-t{background:var(--bg-2); border-color:transparent; height:46px; align-items:center; gap:9px; padding:6px 8px 6px 6px}
+	.dm-t:hover{border-color:var(--line-3); background:#e4e7ec}
+	.dm-t .mm-n{margin-top:0; font-weight:500; color:var(--text)}
+	.dm-ct{flex:none; display:inline-flex; align-items:center; gap:3px}
+	.mm-t .dm-ct i{width:22px; height:22px; margin-top:0; border-radius:5px; font-size:12px; font-weight:600}
+	.dm-ct .t{background:#fff; color:var(--text); box-shadow:inset 0 0 0 2px var(--tc,var(--line-3))}
+	.dm-ct u{text-decoration:none; font-size:12px; color:var(--text-2); line-height:1}
+	.lg-ct i{width:18px; height:18px; border-radius:4px; display:inline-grid; place-items:center; font-style:normal; font-family:var(--mono); font-size:10.5px; font-weight:600}
+	.lg-ct i.t{background:#fff; color:var(--text); box-shadow:inset 0 0 0 2px var(--tc)}
+	#dLegend{margin-bottom:40px}
+	.legend{display:flex; flex-wrap:wrap; align-items:center; gap:8px 18px; margin-top:12px; padding:0 4px; font-family:var(--mono); font-size:11px; color:var(--text-2)}
+	.legend span{display:inline-flex; align-items:center; gap:6px}
+	.legend b{width:10px; height:10px; border-radius:3px; display:inline-block}
+	.legend .sep{width:1px; height:14px; background:var(--line-2)}
+	
+	/* ---------- Direction: plan table ---------- */
+	table.reg.ptab{min-width:1240px}
+	.ptab tbody tr{cursor:default}
+	.ptab tbody tr:hover{background:transparent}
+	.ptab td{vertical-align:middle; padding-top:9px; padding-bottom:9px}
+	.ptopic{min-width:220px}
+	.ptopic b{display:block; font-weight:500; margin-top:5px; line-height:1.3}
+	.ptopic small{display:block; font-size:12px; color:var(--text-2); margin-top:1px}
+	.pown{width:200px}
+	.prev{width:190px}
+	.ptgt{width:160px} .pby{width:110px}
+	.pby select.cell{min-width:94px}
+	.pown .cell{min-width:140px}
+	.ptopic{max-width:220px}
+	.pcur{width:150px; white-space:nowrap}
+	.ptab th.parr,.ptab td.parr{width:22px; padding-left:0; padding-right:0; text-align:center; font-size:18px; color:var(--text-2)}
+	.bigl{display:inline-flex; align-items:center; gap:10px; font-size:15px; font-weight:500; letter-spacing:-.01em}
+	.bigl i{width:32px; height:32px; border-radius:8px; display:grid; place-items:center; font-style:normal; font-family:var(--mono); font-size:15px; font-weight:600; background:var(--c); color:var(--ct)}
+	.bigl.none{color:var(--muted); font-weight:400}
+	.bigl.none i{background:var(--bg-2); color:var(--muted)}
+	.tsel{position:relative; display:flex; align-items:center; min-width:150px}
+	.tsel i{position:absolute; left:4px; top:50%; transform:translateY(-50%); width:32px; height:32px; border-radius:8px; display:grid; place-items:center; font-style:normal; font-family:var(--mono); font-size:15px; font-weight:600; background:#fff; color:var(--muted); box-shadow:inset 0 0 0 2px var(--line-3); pointer-events:none}
+	.tsel.set i{color:var(--text); box-shadow:inset 0 0 0 2.5px var(--tc)}
+	.tsel select.cell{padding:9px 26px 9px 46px; font-size:15px; font-weight:500; letter-spacing:-.01em}
+	.tsel:not(.set) select.cell{color:var(--muted); font-weight:400}
+	.cell{font:inherit; font-size:13px; color:var(--text); background:transparent; border:1px solid transparent; border-radius:7px; padding:6px 8px; width:100%; min-width:0; outline:none; transition:border-color .15s var(--ease),background .15s var(--ease)}
+	.cell:hover{border-color:var(--line-2); background:#fff}
+	.cell:focus{border-color:var(--accent); background:#fff; box-shadow:0 0 0 3px var(--accent-dim)}
+	select.cell{appearance:none; -webkit-appearance:none; padding-right:24px; cursor:pointer; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none' stroke='%235d6678' stroke-width='1.5'%3E%3Cpath d='m2 3.5 3 3 3-3'/%3E%3C/svg%3E") no-repeat right 8px center/9px}
+	select.cell:hover,select.cell:focus{background-color:#fff}
+	input.cell::placeholder{color:var(--muted); font-style:italic}
+	.rvrow{display:flex; align-items:center; gap:4px}
+	.rvrow .cell{flex:1}
+	.rvflag{display:flex; align-items:center; gap:6px; margin:3px 0 0 9px; font-family:var(--mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-2); white-space:nowrap}
+	.mini{flex:none; font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--bg-1); border:1px solid rgba(29,78,216,.3); border-radius:6px; padding:3px 7px; cursor:pointer}
+	.mini:hover{background:var(--accent-soft)}
+	.lvlchip{display:inline-flex; align-items:center; gap:7px; font-size:13px; white-space:nowrap}
+	.lvlchip i{width:20px; height:20px; border-radius:5px; display:grid; place-items:center; font-style:normal; font-family:var(--mono); font-size:11px; font-weight:500; background:var(--c); color:var(--ct)}
+	.gapb{display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:500; letter-spacing:.04em; text-transform:uppercase; padding:3px 8px; border-radius:99px; background:var(--c); color:var(--ct); white-space:nowrap}
+	.pinit{min-width:170px}
+	.ilink{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:11px; color:var(--text); background:var(--bg-1); border:1px solid var(--line-2); border-radius:6px; padding:2px 7px; margin:0 4px 4px 0; cursor:pointer; white-space:nowrap}
+	.ilink:hover{border-color:var(--line-3)}
+	.ilink em{font-style:normal; color:var(--text-2)}
+	.isd{width:7px; height:7px; border-radius:50%; background:var(--c)}
+	.cov{display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; margin-right:6px; white-space:nowrap}
+	.cov[data-c="covered"]{color:var(--l4)} .cov[data-c="partial"]{color:var(--l2)} .cov[data-c="none"]{color:var(--l1)}
+	.pinit .add{padding:1px 6px; font-size:11px}
+	@keyframes rowflash{0%{background:rgba(29,78,216,0)}15%{background:var(--accent-soft)}100%{background:rgba(29,78,216,0)}}
+	.ptab tr.flash td{animation:rowflash 1.8s var(--ease)}
+	.reg .by{display:block; margin-top:3px; font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; color:var(--accent)}
+	.reg tr.done td{color:var(--muted)}
+	.bar-note{font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted)}
+	
+	/* ---------- Direction: initiatives & roadmap ---------- */
+	.itabs{display:inline-flex; background:var(--bg-2); border-radius:999px; padding:3px}
+	.itab{border:0; background:none; padding:7px 14px; border-radius:999px; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-2); cursor:pointer}
+	.itab.on{background:var(--bg-1); color:var(--text); box-shadow:0 1px 2px rgba(14,23,38,.1)}
+	.itab span{margin-left:6px; color:var(--muted)}
+	.ist{display:inline-block; font-family:var(--mono); font-size:9.5px; font-weight:500; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:99px; background:var(--c); color:var(--ct); white-space:nowrap; line-height:1.4}
+	.rm-wrap{background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow); overflow-x:auto}
+	.rm-wrap[hidden]{display:none}
+	.rm{display:grid; grid-template-columns:300px minmax(660px,1fr); min-width:960px}
+	.rm-lab{padding:10px 14px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); min-width:0; cursor:pointer; background:var(--bg-1)}
+	.rm-lab:hover{background:#f6f8fc}
+	.rm-l1{display:flex; align-items:center; gap:8px}
+	.rm-l1 .mono{font-family:var(--mono); font-size:10.5px; color:var(--muted)}
+	.rm-lab b{display:block; margin-top:3px; font-weight:500; font-size:13.5px; line-height:1.3; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+	.rm-lab small{display:block; margin-top:1px; font-size:12px; color:var(--text-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+	.rm-hl{cursor:default; display:flex; align-items:flex-end; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); background:var(--bg-1)}
+	.rm-hl:hover{background:var(--bg-1)}
+	.rm-head{position:relative; border-bottom:1px solid var(--line-2); background:var(--bg-1)}
+	.rm-yrs,.rm-qs{display:grid; grid-template-columns:repeat(var(--nq),minmax(0,1fr))}
+	.rm-yrs span{font-weight:500; font-size:12.5px; padding:9px 8px 2px; border-left:1px solid var(--line-2)}
+	.rm-qs span{font-family:var(--mono); font-size:10.5px; color:var(--muted); padding:3px 8px 8px; border-left:1px solid var(--line)}
+	.rm-qs span.now{color:var(--accent); font-weight:500}
+	.rm-tr{position:relative; overflow:hidden; border-bottom:1px solid var(--line); min-height:64px;
+		background-image:linear-gradient(to right, var(--line) 1px, transparent 1px); background-size:calc(100% / var(--nq)) 100%}
+		.rm-bar{position:absolute; top:16px; bottom:16px; display:flex; align-items:center; gap:6px; padding:0 9px; border:0; border-radius:8px; background:var(--bc); color:var(--bt); font-family:var(--mono); font-size:10.5px; letter-spacing:.03em; white-space:nowrap; overflow:hidden; cursor:pointer; min-width:8px; text-align:left; transition:box-shadow .2s var(--ease)}
+		.rm-bar:hover{box-shadow:0 6px 16px -8px rgba(14,23,38,.6)}
+		.rm-bar b{font-weight:500}
+		.rm-bar span{opacity:.85}
+		.rm-bar em{font-style:normal; font-weight:500; padding:1px 5px; border-radius:4px; background:rgba(255,255,255,.28)}
+		.rm-bar.x{background:repeating-linear-gradient(135deg,#e4e7ec 0 6px,#eef0f3 6px 12px); text-decoration:line-through}
+		.rm-today{position:absolute; top:0; bottom:0; width:0; border-left:2px dashed var(--accent); z-index:0; pointer-events:none; opacity:.8}
+		.rm-bar{z-index:1}
+		.rm-head .rm-today::before{content:"Today"; position:absolute; top:2px; left:4px; font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); background:var(--bg-1); padding:0 3px}
+		.rm-ns{position:absolute; left:12px; top:50%; transform:translateY(-50%); font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted)}
+		.rm-empty{grid-column:1 / -1; padding:30px 20px; text-align:center; color:var(--muted); font-size:14px}
+		
+		/* ---------- Initiative dialog ---------- */
+		.dlg.wide{width:min(780px,calc(100vw - 32px))}
+		.picks{display:flex; flex-wrap:wrap; gap:5px; max-height:190px; overflow:auto; padding:2px 2px 4px; border:1px solid var(--line); border-radius:10px; padding:8px}
+		.picks .pg{width:100%; margin:4px 0 0; font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted)}
+		.picks .pg:first-child{margin-top:0}
+		.pk{position:relative; display:inline-flex; min-width:0}
+		.pk input{position:absolute; opacity:0; width:1px; height:1px; padding:0; margin:0; border:0; pointer-events:none}
+		.pk span{display:inline-flex; align-items:center; gap:6px; min-width:0; font-size:12.5px; padding:4px 9px; border:1px solid var(--line-2); border-radius:8px; background:#fff; cursor:pointer; color:var(--text-2); transition:background .15s var(--ease),border-color .15s var(--ease),color .15s var(--ease)}
+		.pk span b{flex:none; font-family:var(--mono); font-size:10.5px; font-weight:500; color:var(--muted)}
+		.pk span i{font-style:normal; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+		.pk input:checked + span{background:var(--accent-soft); border-color:rgba(29,78,216,.45); color:var(--accent-deep)}
+		.pk input:checked + span b{color:var(--accent-deep)}
+		.pk input:focus-visible + span{outline:2px solid var(--accent); outline-offset:2px}
+		.picks.list{flex-direction:column; flex-wrap:nowrap; max-height:200px}
+		.picks.list .pk span{width:100%}
+		.ferr{grid-column:1 / -1; margin:0; color:var(--l1); font-size:13px; font-weight:500}
+		
+		/* ---------- Responsive ---------- */
+		@media (max-width:980px){
+			.stats{grid-template-columns:1fr 1fr}
+			.stats .stat.wide{grid-column:1 / -1}
+			.scale{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+			.minimap{grid-template-columns:1fr 1fr}
+			.mm-g.wide{grid-column:1 / -1}
+			.dstats{grid-template-columns:1fr 1fr}
+			.vb-note{display:none}
+		}
+		@media (max-width:560px){
+			.minimap{grid-template-columns:1fr}
+			
+			.dlg-body,.grid3{grid-template-columns:1fr}
+			.stats .stat.wide{grid-template-columns:1fr; gap:10px}
+			.stats .stat.wide .k{grid-row:auto}
+			.sel{max-width:100%; flex:1 1 100%}
+			.vtabs{width:100%}
+			.vtab{flex:1; padding:7px 10px 8px}
+			.vtab small{display:none}
+			.dstats{grid-template-columns:1fr}
+		}
+		@media (max-width:760px){
+			.board-wrap{scroll-snap-type:x mandatory; scroll-padding:0 16px}
+			.board{grid-template-columns:repeat(5,84vw); --gap:44px}
+			.col{scroll-snap-align:start}
+			.col.wide .cards{grid-template-columns:minmax(0,1fr)}
+			.search{flex:1 1 100%}
+			.hint{display:none !important}
+			.actions .btn .lbl{display:none}
+			.modes{order:3; margin-left:0; width:100%; justify-content:space-between}
+			.modes-k{display:none}
+		}
+		
+		/* ---------- Print ---------- */
+		@media print{
+			@page{size:A3 landscape; margin:10mm}
+			body{background:#fff; font-size:12px}
+			.topbar .actions,.modes,.modebar,.toolbar,.more,.rf-add,.reg-bar,.dlg,.viewbar,.mini{display:none !important}
+			.rm-wrap{overflow:visible; box-shadow:none}
+			.rm{min-width:0; grid-template-columns:240px 1fr}
+			.cell{border:0; padding:2px 0; appearance:none; background:none}
+			table.reg.ptab{min-width:0}
+			.rm-bar,.ist,.gapb,.lvlchip i,.dm-gap,.rvdot,.tmark,.legend b{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+			.reg-wrap{overflow:visible; box-shadow:none}
+			.chip,.mm-rf b{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+			.hero{padding-top:8px}
+			.panel{box-shadow:none}
+			.board-wrap{overflow:visible; padding:16px 0 0}
+			.board{max-width:none; padding:0; --gap:28px; grid-template-columns:1fr 1fr 3fr 1fr 1fr}
+			.col:not(:last-child)::after{box-shadow:none}
+			.desc.clamp p{display:block; -webkit-line-clamp:unset; overflow:visible}
+			.card{break-inside:avoid; box-shadow:none}
+			.card.dim{opacity:1}
+			.col-head,.col::after,.badge,.seg button,.lvl .sw,.dist i,.card::before,.ch-track i{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+		}
+		@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+		</style>
+		</head>
+		<body>
+		
+		<header class="topbar">
+		<div class="wrap topbar-in">
+		<div class="mark"><span class="sq" aria-hidden="true"></span><span>CISO Security Program Management<small>2026 edition · NIST CSF 2.0</small></span></div>
+		<div class="modes" role="radiogroup" aria-label="Data set">
+		<span class="modes-k">Data</span>
+		<button type="button" role="radio" data-mode="blank">Blank</button>
+		<button type="button" role="radio" data-mode="example">Example Corp.</button>
+		<button type="button" role="radio" data-mode="saved">Saved</button>
+		</div>
+		<div class="actions">
+		<button class="btn" id="btnCsv" type="button" title="Download ratings as CSV">
+		<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 2v8m0 0L4.5 6.5M8 10l3.5-3.5M2.5 13.5h11"/></svg><span class="lbl">Export CSV</span></button>
+		<button class="btn" id="btnPrint" type="button" title="Print or save as PDF">
+		<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 6V2h8v4M4 12H2.5V6.5h11V12H12M4 9.5h8V14H4z"/></svg><span class="lbl">Print</span></button>
+		<button class="btn" id="btnReset" type="button" title="Clear all maturity ratings and KPI values (risks, findings, targets, owners and initiatives are kept)">
+		<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v3h3"/></svg><span class="lbl">Reset</span></button>
+		</div>
+		</div>
+		</header>
+		
+		<div class="modebar" id="modebar" hidden>
+		<div class="wrap modebar-in">
+		<span class="mb-dot" aria-hidden="true"></span>
+		<p id="modeMsg"></p>
+		<span class="spacer"></span>
+		<button type="button" class="btn" id="btnKeep">Keep as my saved data</button>
+		<button type="button" class="btn primary" id="btnToSaved">Back to Saved</button>
+		</div>
+		</div>
+		
+		<section class="hero wrap" aria-labelledby="title">
+		<p class="eyebrow"><span class="dot" aria-hidden="true"></span>Five functions · <span id="topicCount">30</span> topics<span id="dsName"></span></p>
+		<h1 id="title">CISO Security <em>Program Management</em> 2026</h1>
+		<p class="lead">The security domains a CISO is accountable for, mapped from left to right across the NIST Cybersecurity Framework functions. <b>Current state</b> shows where the program stands today: maturity, operational KPIs, risks and audit findings. <b>Direction &amp; roadmap</b> shows where it is heading: target maturity, accountable owners and the initiatives that close the gap.</p>
+		</section>
+		
+		<div id="viewAnchor"></div>
+		<nav class="viewbar" id="viewbar" aria-label="Views">
+		<div class="wrap viewbar-in">
+		<div class="vtabs" role="tablist" aria-label="View">
+		<button type="button" role="tab" class="vtab" id="tab-current" data-view="current" aria-controls="view-current"><b>Current state</b><small>Maturity · KPIs · risks &amp; findings</small></button>
+		<button type="button" role="tab" class="vtab" id="tab-direction" data-view="direction" aria-controls="view-direction"><b>Direction &amp; roadmap</b><small>Targets · owners · initiatives</small></button>
+		</div>
+		<p class="vb-note" id="vbNote"></p>
+		</div>
+		</nav>
+		
+		<div class="view" id="view-current" role="tabpanel" aria-labelledby="tab-current">
+		<section class="wrap summary">
+		<div class="panel stats" aria-live="polite">
+		<div class="stat"><span class="k">Rated</span><span class="v" id="sRated">0<small>/30</small></span></div>
+		<div class="stat"><span class="k">Average maturity</span><span class="v" id="sAvg">–</span><span class="sub" id="sAvgLbl">No ratings yet</span></div>
+		<div class="stat"><span class="k">Operational KPIs</span><span class="v" id="sKpi">0<small>/60 passing</small></span><span class="sub" id="sKpiLbl"></span></div>
+		<div class="stat"><span class="k">Risks &amp; audit findings</span><span class="v" id="sRF">0<small> open</small></span><span class="sub" id="sRFLbl"></span></div>
+		<div class="stat wide"><span class="k">Distribution</span><div class="dist" id="dist" role="img" aria-label="Distribution of maturity ratings"></div><div class="dist-legend" id="distLegend"></div></div>
+		</div>
+		
+		<nav class="panel minimap" id="minimap" aria-label="Overview of all topics"></nav>
+		
+		<div class="panel scale" id="scale" aria-label="Maturity scale"></div>
+		</section>
+		
+		<div class="toolbar">
+		<div class="wrap toolbar-in">
+		<label class="search">
+		<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="7" cy="7" r="4.75"/><path d="m10.5 10.5 3 3"/></svg>
+		<input id="q" type="search" placeholder="Search topics and keywords…" aria-label="Search topics and keywords" autocomplete="off">
+		</label>
+		<span class="qcount" id="qcount" aria-live="polite"></span>
+		<span class="spacer"></span>
+		<span class="hint" id="hint">Scroll sideways for all functions →</span>
+		<button class="btn" id="btnReg" type="button" title="Go to the risk and audit finding register">Register <span class="cnt" id="regCount">0</span></button>
+		<button class="btn" id="btnExpand" type="button">Expand all</button>
+		<button class="btn" id="btnCollapse" type="button">Collapse all</button>
+		</div>
+		</div>
+		
+		<main class="board-wrap" id="boardWrap">
+		<div class="board" id="board"></div>
+		</main>
+		
+		<section class="register wrap" id="register" aria-labelledby="regTitle">
+		<p class="eyebrow"><span class="dot" aria-hidden="true"></span>Register</p>
+		<h2 id="regTitle">Risks &amp; audit <em>findings</em></h2>
+		<p class="reg-lead">Record risks and audit findings against a topic. They appear on that topic's card and in the overview. Topics without any are fine.</p>
+		<div class="reg-bar">
+		<div class="tabs" role="tablist" aria-label="Register type">
+		<button type="button" role="tab" class="tab on" data-tab="risk" aria-selected="true">Risks <span id="cntR">0</span></button>
+		<button type="button" role="tab" class="tab" data-tab="finding" aria-selected="false">Audit findings <span id="cntF">0</span></button>
+		</div>
+		<select class="sel" id="fTopic" aria-label="Filter by topic"></select>
+		<select class="sel" id="fStatus" aria-label="Filter by status">
+		<option value="open">Open items</option>
+		<option value="">All statuses</option>
+		<option value="closed">Closed</option>
+		</select>
+		<span class="spacer"></span>
+		<button class="btn" id="regCsv" type="button">Export CSV</button>
+		<button class="btn primary" id="regAdd" type="button">+ Add risk</button>
+		</div>
+		<div class="reg-wrap">
+		<table class="reg"><thead id="regHead"></thead><tbody id="regBody"></tbody></table>
+		<p class="reg-empty" id="regEmpty"></p>
+		</div>
+		</section>
+		</div><!-- /view-current -->
+		
+		<div class="view" id="view-direction" role="tabpanel" aria-labelledby="tab-direction" hidden>
+		<section class="wrap summary">
+		<div class="panel stats dstats" aria-live="polite">
+		<div class="stat"><span class="k">Average maturity: now → target</span><span class="v" id="dAvg">–</span><span class="sub" id="dAvgLbl"></span></div>
+		<div class="stat"><span class="k">Gap to target</span><span class="v" id="dGap">0</span><span class="sub" id="dGapLbl"></span></div>
+		<div class="stat"><span class="k">Initiatives</span><span class="v" id="dInit">0</span><span class="sub" id="dInitLbl"></span></div>
+		<div class="stat"><span class="k">Ownership &amp; review</span><span class="v" id="dOwn">0</span><span class="sub" id="dOwnLbl"></span></div>
+		</div>
+		<nav class="panel minimap" id="dmap" aria-label="Overview of targets and gaps"></nav>
+		<div class="legend" id="dLegend"></div>
+		</section>
+		
+		<section class="register wrap" id="plan" aria-labelledby="planTitle">
+		<p class="eyebrow"><span class="dot" aria-hidden="true"></span>Targets &amp; ownership</p>
+		<h2 id="planTitle">Where each topic is <em>heading</em></h2>
+		<p class="reg-lead">Set a target maturity and date for each topic, name one accountable owner, and record when the topic was last reviewed. Topics not reviewed for 6 months are flagged as due, and after 12 months as overdue.</p>
+		<div class="reg-bar">
+		<select class="sel" id="pSort" aria-label="Sort topics">
+		<option value="topic" selected>Sort: topic order</option>
+		<option value="gap">Sort: largest gap first</option>
+		<option value="review">Sort: review status</option>
+		<option value="owner">Sort: owner</option>
+		<option value="by">Sort: target date</option>
+		</select>
+		<select class="sel" id="pShow" aria-label="Filter topics">
+		<option value="all">All topics</option>
+		<option value="below">Below target</option>
+		<option value="uncovered">Gap not fully covered by initiatives</option>
+		<option value="review">Review due, overdue or never done</option>
+		<option value="noowner">No owner</option>
+		<option value="notarget">No target set</option>
+		</select>
+		<select class="sel" id="pFn" aria-label="Filter by function"></select>
+		<span class="spacer"></span>
+		<span class="bar-note" id="pCount"></span>
+		</div>
+		<div class="reg-wrap">
+		<table class="reg ptab">
+		<thead><tr><th>Topic</th><th>Current</th><th class="parr" aria-hidden="true"></th><th>Target</th><th>By</th><th>Gap</th><th>Accountable owner</th><th>Last reviewed</th><th>Initiatives</th></tr></thead>
+		<tbody id="planBody"></tbody>
+		</table>
+		<p class="reg-empty" id="planEmpty" hidden>No topics match this filter.</p>
+		</div>
+		</section>
+		
+		<section class="register wrap" id="inits" aria-labelledby="initTitle">
+		<p class="eyebrow"><span class="dot" aria-hidden="true"></span>Initiatives</p>
+		<h2 id="initTitle">Security <em>roadmap</em></h2>
+		<p class="reg-lead">Projects that move topics toward their targets. Link each initiative to the topics it lifts and the risks or audit findings it addresses, with an owner, budget, dates and the maturity uplift you expect.</p>
+		<div class="reg-bar">
+		<div class="itabs" role="tablist" aria-label="Initiative view">
+		<button type="button" role="tab" class="itab on" data-iview="roadmap" aria-selected="true">Roadmap</button>
+		<button type="button" role="tab" class="itab" data-iview="list" aria-selected="false">List <span id="cntI">0</span></button>
+		</div>
+		<select class="sel" id="iShow" aria-label="Filter initiatives by status">
+		<option value="">All initiatives</option>
+		<option value="open">Open (not completed or cancelled)</option>
+		<option value="In progress">In progress</option>
+		<option value="Planned">Planned</option>
+		<option value="Proposed">Proposed</option>
+		<option value="On hold">On hold</option>
+		<option value="Completed">Completed</option>
+		<option value="Cancelled">Cancelled</option>
+		</select>
+		<span class="spacer"></span>
+		<button class="btn" id="iCsv" type="button">Export CSV</button>
+		<button class="btn primary" id="iAdd" type="button">+ Add initiative</button>
+		</div>
+		<div class="rm-wrap" id="roadmap"></div>
+		<div class="reg-wrap" id="initList" hidden>
+		<table class="reg">
+		<thead><tr><th>ID</th><th>Initiative</th><th>Topics</th><th>Addresses</th><th>Owner</th><th>Budget</th><th>Start – end</th><th>Uplift</th><th>Status</th></tr></thead>
+		<tbody id="initBody"></tbody>
+		</table>
+		<p class="reg-empty" id="initEmpty" hidden></p>
+		</div>
+		<div class="legend" id="iLegend"></div>
+		</section>
+		</div><!-- /view-direction -->
+		
+		<dialog class="dlg wide" id="idlg" aria-labelledby="iTitle">
+		<form id="iForm" novalidate>
+		<header>
+		<p class="eyebrow" id="iKind">Initiative</p>
+		<h3 id="iTitle">New initiative</h3>
+		<button type="button" class="x" id="iX" aria-label="Close">×</button>
+		</header>
+		<div class="dlg-body">
+		<label class="fld full"><span>Title</span><input name="title" required maxlength="160" autocomplete="off"></label>
+		<label class="fld full"><span>Description</span><textarea name="desc" rows="2"></textarea></label>
+		<label class="fld"><span>Owner</span><input name="owner" autocomplete="off"></label>
+		<label class="fld"><span>Status</span><select name="status"></select></label>
+		<label class="fld"><span>Start</span><input type="date" name="start"></label>
+		<label class="fld"><span>End</span><input type="date" name="end"></label>
+		<label class="fld"><span>Budget (€)</span><input type="number" name="budget" min="0" step="1000" inputmode="numeric" placeholder="e.g. 150000"></label>
+		<label class="fld"><span>Expected maturity uplift</span><select name="uplift"><option value="0">No change</option><option value="1">+1 level on linked topics</option><option value="2">+2 levels on linked topics</option></select></label>
+		<div class="fld full"><span>Topics it lifts</span><div class="picks" id="iTopics"></div></div>
+		<div class="fld full"><span>Risks &amp; audit findings it addresses</span><div class="picks list" id="iRF"></div></div>
+		<p class="ferr" id="iErr" hidden></p>
+		</div>
+		<footer>
+		<button type="button" class="btn del" id="iDel">Delete</button>
+		<span class="spacer"></span>
+		<button type="button" class="btn" id="iCancel">Cancel</button>
+		<button type="submit" class="btn primary">Save</button>
+		</footer>
+		</form>
+		</dialog>
+		
+		<dialog class="dlg" id="dlg" aria-labelledby="dlgTitle">
+		<form id="dlgForm" novalidate>
+		<header>
+		<p class="eyebrow" id="dlgKind">Risk</p>
+		<h3 id="dlgTitle">New risk</h3>
+		<button type="button" class="x" id="dlgX" aria-label="Close">×</button>
+		</header>
+		<div class="dlg-body">
+		<label class="fld full"><span>Topic</span><select name="topic" required></select></label>
+		<label class="fld full"><span>Title</span><input name="title" required maxlength="160" autocomplete="off"></label>
+		<label class="fld full"><span>Description</span><textarea name="desc" rows="3"></textarea></label>
+		<div class="grid3 risk-only">
+		<label class="fld"><span>Likelihood</span><select name="likelihood"></select></label>
+		<label class="fld"><span>Impact</span><select name="impact"></select></label>
+		<div class="fld"><span>Risk score</span><output class="score" id="dlgScore"></output></div>
+		</div>
+		<label class="fld risk-only"><span>Treatment</span><select name="treatment"></select></label>
+		<label class="fld finding-only"><span>Source / audit</span><input name="source" placeholder="e.g. ISO 27001 internal audit 2026" autocomplete="off"></label>
+		<label class="fld finding-only"><span>Severity</span><select name="severity"></select></label>
+		<label class="fld"><span>Owner</span><input name="owner" autocomplete="off"></label>
+		<label class="fld"><span>Due date</span><input type="date" name="due"></label>
+		<label class="fld"><span>Status</span><select name="status"></select></label>
+		</div>
+		<footer>
+		<button type="button" class="btn del" id="dlgDel">Delete</button>
+		<span class="spacer"></span>
+		<button type="button" class="btn" id="dlgCancel">Cancel</button>
+		<button type="submit" class="btn primary">Save</button>
+		</footer>
+		</form>
+		</dialog>
+		
+		<footer>
+		<div class="wrap"><span>CISO Security Program Management 2026 · Based on the CISO Security Mind Map 2026</span><span>All data is saved in this browser only</span></div>
+		</footer>
+		
+		<script>
+		const LEVELS = [null,
+{name:"Initial",    desc:"Ad hoc and reactive. Results depend on individual effort."},
+{name:"Repeatable", desc:"Basic practices exist and are repeated, but not consistently documented."},
+{name:"Defined",    desc:"Documented, standardized and applied across the organization."},
+{name:"Managed",    desc:"Measured and controlled with metrics and regular review."},
+{name:"Optimized",  desc:"Continuously improved and automated where it makes sense."}
+		];
+		
+		const FUNCS = [
+			{ id:"GV", name:"Govern", sub:"Strategy, policy and oversight", topics:[
+				{ t:"(Cyber) Security Governance",
+					one:"Direction, ownership and oversight of the security program.",
+					long:"Sets how security is steered across the organization: the strategy and multi-year program, how it aligns with business and IT goals, and who is accountable for what. It covers security policy, the team's structure and hiring, governance of AI use, and regular reporting to executives and the board through KPIs and KRIs that show whether the program is working.",
+					kw:["Security strategy","security program management","alignment with business & IT goals","roles & responsibilities","hiring and team strategy","AI security governance","security policy","reporting","security KPIs/KRIs"] },
+					{ t:"Data Governance",
+						one:"Rules for who owns data and how it may be used.",
+						long:"Defines ownership of data, the rules for its use and the approval process for new uses, including feeding data into AI models. It keeps production data out of non-production environments, applies masking where realistic data is needed, and gives personally identifiable information extra protection so privacy obligations are met by design.",
+						kw:["Data ownership","data rules","data usage approvals","data usage for AI","separation of production and non-production","data masking","Personally Identifiable Information (PII)"] },
+						{ t:"Security and Privacy Standards",
+							one:"Mapping the program to the frameworks and laws that apply.",
+							long:"Determines which frameworks, certifications and regulations the organization must meet or chooses to follow, and maps them onto a single control set. That spans frameworks such as NIST CSF, ISO 27001 and CIS, assurance reports such as SOC 2 and ISAE 3402, sector rules such as PCI DSS and SOX, and legislation from GDPR, NIS2, DORA, the CRA and the AI Act in the EU to CCPA, HIPAA and SEC disclosure rules in the US.",
+							kw:["Alignment with security standards","NIST (CSF)","ISO27001","SOC 2 / ISAE3402 type 1 & 2","CIS","PCI DSS","SOX","EU GDPR","EU NIS2","EU DORA","EU CRA","EU AI Act","USA CCPA","USA HIPAA","USA Executive Order on Cybersecurity","USA SEC (Securities and Exchange Commission) reporting requirements","USA FTC’s amended Safeguards Rule"] },
+							{ t:"Security Budget & Finance",
+								one:"Planning, tracking and justifying security spend.",
+								long:"Covers multi-year budgeting and forecasting, tracking actual spend against plan, and making the case for investment in light of the threat landscape and business priorities. Separating recurring run costs from project, consulting and tooling costs shows leadership what security costs to operate and what it costs to improve.",
+								kw:["Overall budgeting and forecasting (1, 2, 3+ years)","monitoring current spend levels","budgeting versus threat levels","alignment with business and technology goals","run costs","projects & consulting costs","tooling costs"] }
+			]},
+{ id:"ID", name:"Identify", sub:"Understand assets, risks and threats", topics:[
+	{ t:"Asset Management",
+		one:"Knowing what you have, where it is and who owns it.",
+		long:"Maintains an accurate inventory of systems, network components, applications and other assets, kept current through automated discovery and a CMDB. Almost every other control depends on it: you cannot patch, monitor or protect what you do not know exists, and ownership data tells you who to call when something goes wrong.",
+		kw:["Asset inventory","(automated) asset discovery","CMDB","asset types (systems, network, applications, etc.)"] },
+		{ t:"Risk Assessments, Threat Modeling & Security by Design, Pentesting & Red Teaming",
+			one:"Finding weaknesses in design and in practice before attackers do.",
+			long:"Combines forward-looking analysis with hands-on testing. Risk assessments and threat modeling examine applications and business processes to find what could go wrong and build controls into the design from the start. Penetration tests, red team exercises and compliance testing then check whether those controls hold up against realistic attacks, and the findings feed back into the risk register.",
+			kw:["Performing (periodic) risk assessments","pentesting or ethical hacking","red teaming","security compliance testing","application & business threat modeling","security by design"] },
+			{ t:"Cyber Security Threat Intelligence",
+				one:"Understanding who might attack you and how.",
+				long:"Collects and analyses information on threat actors, campaigns and techniques relevant to the organization, from intelligence feeds, CSIRTs and dark web monitoring. Good intelligence leads to action: it sharpens detection rules, sets patching priorities and informs risk decisions instead of sitting unread in a report.",
+				kw:["Monitoring of intelligence sources","threats from attackers","dark web monitoring","CSIRT"] },
+				{ t:"Third Party Risk Management (TPRM)",
+					one:"Managing the security risk that suppliers bring in.",
+					long:"Governs how vendors and partners are assessed, contracted and monitored across their lifecycle. Suppliers are profiled and tiered by criticality, assessed during due diligence, onboarded with the right security requirements, monitored periodically and offboarded cleanly so access is removed and data returned. Regulations such as DORA and NIS2 make this an explicit obligation.",
+					kw:["TPRM governance","TPRM assessments for due diligence","periodic monitoring","profiling and risk tiering","secure onboarding","offboarding"] }
+]},
+{ id:"PR", name:"Protect", sub:"Safeguards that reduce risk", wide:true, topics:[
+	{ t:"Endpoint Protection & Mobile Device Management",
+		one:"Securing laptops, desktops, servers and mobile devices.",
+		long:"Protects the devices people and systems run on with endpoint protection, manages corporate and personal phones and tablets under BYOD or CYOD models, and secures internet access through proxies and firewalls. Managed devices can be configured, patched, wiped and checked for compliance before they are allowed near company data.",
+		kw:["Endpoint protection on laptops/desktops/servers","BYOD/CYOD","Mobile Device Management (MDM)","secure internet access (via proxy/firewall)"] },
+		{ t:"Network Security",
+			one:"Controlling and inspecting traffic across the network.",
+			long:"Designs and operates the network so that traffic is filtered, segmented and inspected. That includes network and web application firewalls with regular rule reviews, VPNs, segmentation down to micro-segmentation, DMZs and controlled management access through jump servers, intrusion detection and prevention, DDoS protection, network access control, and a gradual move toward zero-trust networking.",
+			kw:["Network and Web Application Firewalls","firewall rule reviews","Virtual Private Networks (VPN)","(micro) segmentation","(virtual) LANs","software defined networking","segmented management access","jump servers","zero-trust networking","DMZs","(network) IDS/IPS","Proxy filtering","DDoS protection","Network Access Control (NAC)","CASB Gateway","TLS offloading"] },
+			{ t:"Vulnerability Management",
+				one:"Finding, prioritizing and fixing known weaknesses.",
+				long:"Runs the continuous cycle of scanning systems and applications for known vulnerabilities, prioritizing them by exploitability and business impact, and driving remediation within agreed timelines. Credentialed scans see far more than external ones. Where a fix is not possible, the risk is formally accepted, documented and revisited.",
+				kw:["Vulnerability scanning","vulnerability remediation","credentialed & non-credentialed scanning","managing and accepting vulnerabilities"] },
+				{ t:"Hardening & Secure Configuration",
+					one:"Locking systems down to a known secure baseline.",
+					long:"Defines hardening baselines for operating systems, middleware, databases and network devices, often based on CIS Benchmarks, and applies them through repeatable procedures. Configuration scanning detects drift from the baseline, and deviation management records approved exceptions so insecure defaults do not quietly return.",
+					kw:["Hardening baselines","hardening procedures","hardening scanning","deviation management"] },
+					{ t:"Encryption and Cryptography",
+						one:"Protecting data with encryption and well-managed keys.",
+						long:"Ensures data is encrypted at rest and in transit, from disk and database encryption to TLS on every connection. Encryption is only as strong as its key management, so this also covers key management systems, PKI and certificate lifecycles, and preparing for post-quantum cryptography by knowing where vulnerable algorithms are in use.",
+						kw:["Encryption of data at rest & in transit","(virtual) disk encryption","database encryption","SSL/TLS","Key Management System","Public Key Infrastructure","post quantum encryption"] },
+						{ t:"Mobile Security",
+							one:"Securing mobile apps and the platforms they run on.",
+							long:"Focuses on the mobile applications the organization builds or relies on: protecting app code against reverse engineering and tampering through obfuscation, applying secure development practices, and checking the integrity of the iOS or Android device before trusting it with sensitive functions.",
+							kw:["Mobile app code protection & obfuscation","app sec","OS (iOS & Android) security and integrity"] },
+							{ t:"Physical Security",
+								one:"Keeping unauthorized people away from facilities and hardware.",
+								long:"Protects offices, server rooms and data centers with access badges, locks, turnstiles that stop tailgating, and security guards. Physical access can bypass many technical controls, so data centers and hosting providers in particular need verified physical safeguards.",
+								kw:["Access badges","physical locks","anti-tailgating or piggybacking turnstiles","security guards","Data Center physical security"] },
+								{ t:"Identity & Access Management (IAM)",
+									one:"Making sure the right identities have the right access.",
+									long:"Manages the full identity lifecycle, from HR-driven onboarding through role changes to timely offboarding. It enforces strong authentication with SSO, MFA and password policies, grants access through roles, and puts extra control on privileged accounts. Identity now reaches beyond people to secrets in vaults, federated partners, and AI agents acting on someone's behalf.",
+									kw:["HR onboarding and offboarding","HR integration","joiner + mover + leaver process","minimum password requirements","Single Sign On (SSO)","Multi-Factor Authentication (MFA)","Role Based Access Control (RBAC)","Active Directory","Privileged Access Management","OAuth","smart cards","password managers","(key) vaults","federations","trusts","AI and agentic identities"] },
+									{ t:"Data Loss Protection",
+										one:"Preventing sensitive data from leaving the organization.",
+										long:"Starts with classifying data and documents by sensitivity, then applies controls that match: restricting external storage and uncontrolled online sharing, and scanning email for sensitive content leaving the organization. DLP only works if classification is simple enough that people actually apply it.",
+										kw:["Data classification (i.e., public, internal, confidential, etc.)","classifying (office) documents","limiting external storage access","limiting online sharing","Email scanning"] },
+										{ t:"Security Awareness & Training",
+											one:"Helping people recognize and avoid security risks.",
+											long:"Builds security habits through compliance training, phishing simulations and targeted programs for higher-risk groups such as privileged users and senior leadership. Participation and behaviour are monitored, so the program can show whether risk is going down, not only whether courses were completed.",
+											kw:["Compliance training","phishing training","training of special groups (i.e., privileged users, senior leadership, etc.)","monitoring of compliance"] },
+											{ t:"Brand Protection",
+												one:"Spotting and removing abuse of the organization's name online.",
+												long:"Monitors social media and domain registrations for impersonation, look-alike domains, fake accounts and phishing sites that exploit the brand. When abuse is found, takedown requests to registrars, hosting providers and platforms get it removed before customers or staff are deceived.",
+												kw:["Social media monitoring","domain monitoring","takedown requests"] },
+												{ t:"Secure Development & Deployment",
+													one:"Building security into how software is written and shipped.",
+													long:"Embeds security across the software development lifecycle: security requirements up front, secure coding against the OWASP Top 10, and automated checks in CI/CD pipelines that can stop a build. With AI-assisted coding now common, it also sets guidelines for vibe coding and uses AI code review scanning to catch what generated code gets wrong.",
+													kw:["Secure Software Development Life Cycle (SSDLC)","CI/CD pipelines","CI/CD security triggers","security requirements","OWASP top 10","AI (vibe coding) guidelines","AI code review scanning"] },
+													{ t:"Cloud Security",
+														one:"Securing workloads and configuration across cloud platforms.",
+														long:"Covers security during cloud migration and in day-to-day operation across IaaS, PaaS and SaaS. Platform-wide security policies define what secure looks like, and Cloud Security Posture Management continuously checks that every component is configured that way, catching misconfigurations before they become exposures.",
+														kw:["Cloud migration and transformation","IaaS","PaaS","SaaS","Cloud platform security policies","Cloud Security Posture Management","secure cloud (component) configuration"] },
+														{ t:"Internet of Things (IoT) Security",
+															one:"Managing the risk of connected devices on the network.",
+															long:"Addresses cameras, sensors, building systems and other connected devices that often cannot run standard security agents. It starts with identifying every device, then isolating them in their own segments, controlling which devices may connect, limiting their exposure and authenticating them with certificates, all within the processing and power limits these devices have.",
+															kw:["IoT identification","IoT segmentation","IoT Network Access Control","IoT exposure","IoT resource constraints","IoT PKI and digital certificates","IoT network"] },
+															{ t:"SaaS Security",
+																one:"Keeping data and access safe in third-party cloud applications.",
+																long:"Assesses and configures the SaaS applications the business depends on: vendor security assurance, authentication through SSO, encryption, and access restrictions by IP, VPN or CASB. It weighs single- versus multi-tenant deployment, secures the connections between services, and keeps an inventory of the software stack so shadow IT does not grow unnoticed.",
+																kw:["Security assurance","SaaS authentication","data encryption","CASB","IP/VPN access restriction","single or multi-tenant","secure deployment","secure connections","software stack inventory"] },
+																{ t:"OT / ICS / SCADA Security",
+																	one:"Protecting industrial and operational technology.",
+																	long:"Secures the systems that control physical processes: SCADA, ICS, DCS, PLCs, machinery and plant equipment. These environments put availability and safety first and often run legacy technology, so the focus is on separating OT from IT, controlling remote access, and using digital twins to test changes without putting operations at risk.",
+																	kw:["SCADA systems","Industrial Control Systems (ICS)","Distributed Control Systems (DCS)","PLCs","physical plant equipment","remote industrial software","machinery","separation of OT and IT","digital twin"] },
+																	{ t:"AI Security",
+																		one:"Using AI to strengthen security analysis and policy work.",
+																		long:"Puts AI to work inside the security function. Staff can ask plain-language questions about the organization's current security standards and policies, and proposed IT changes can be analysed against policy to flag conflicts before they are approved. The output still needs human review, and the AI tools themselves fall under AI security governance.",
+																		kw:["Using AI to ask questions about current security standards and policies","AI for IT change analysis versus current policy"] }
+]},
+{ id:"DE", name:"Detect", sub:"Find attacks and anomalies", topics:[
+	{ t:"Security Logging",
+		one:"Collecting trustworthy logs from every relevant source.",
+		long:"Ensures endpoints, servers, network components and applications produce the security logs needed to detect and investigate incidents, and that those logs are collected centrally and protected against tampering. Logs from third-party partners are integrated too, so investigations are not blind to activity outside the organization's own infrastructure.",
+		kw:["Onboarding endpoints + clients + servers + network components + with (infrastructure-level) security logging","application security logging","untampered collection of logs","integrating external logs (i.e., from third-party partners)"] },
+		{ t:"Security Monitoring",
+			one:"Turning logs and signals into alerts worth acting on.",
+			long:"Uses a SIEM and SOAR to analyse events, starting from standard use cases and growing into custom detections built for the organization's own risks and systems. Threat intelligence enriches the alerts, and every alert has a defined follow-up so detection leads to action rather than noise.",
+			kw:["Standard use cases","custom use case & detection development","use of SIEM and SOAR","monitoring events and follow-up","integrating threat intelligence"] }
+]},
+{ id:"RR", name:"Respond & Recover", sub:"Contain incidents and restore operations", topics:[
+	{ t:"Security Operations Center (SOC)",
+		one:"The team that watches, investigates and contains threats.",
+		long:"Monitors events, triages SIEM alerts and investigates them using indicators of compromise, threat intelligence and MITRE ATT&CK. When an attack is confirmed, the SOC contains it by isolating affected systems, supports forensics, and works with incident management on recovery.",
+		kw:["Event monitoring","SOC investigation and response procedures","analysis of SIEM alerts","Indicators of Compromise","triage","threat intelligence","containment","recovery","isolation","MITRE ATT&CK","forensics"] },
+		{ t:"(Security) Incident Management",
+			one:"A rehearsed plan for handling security incidents.",
+			long:"Defines how incidents are classified, escalated and managed, who sits on the incident taskforce, and which playbooks apply to common scenarios. It covers response and forensics, data breach handling and notification, and specific preparation for ransomware, so decisions are fast and well practiced when an incident happens.",
+			kw:["Incident Mngt plans and procedures","Incident Mngt. taskforce","classification","(security) incident response","forensics","data breach","incident playbooks","ransomware preparation and response"] },
+			{ t:"Business Continuity Management (BCM) and Disaster Recovery (DR)",
+				one:"Keeping the business running and restoring it after disruption.",
+				long:"Business continuity plans set out how critical processes keep operating during a disruption, while disaster recovery plans restore IT systems within agreed recovery time and recovery point objectives. Recovery sites, from hot standby to cold sites, and regular recovery testing prove that the plans actually work.",
+				kw:["Business Cont. Plan","Disaster Recovery plans and procedures","Disaster Recovery testing","recovery sites","hot/cold sites"] }
+]}
+		];
+		
+		/* ---------- operational KPIs: [name, definition, direction, pass, fail] ----------
+		 *   up   = higher is better: Pass ≥ pass, Fail < fail, At risk in between
+		 *   down = lower is better:  Pass ≤ pass, Fail > fail, At risk in between        */
+		const KPIS = {
+			"GV.01":[["Policy review coverage","% of security policies reviewed and approved in the last 12 months","up",95,80],
+			["Roadmap delivery","% of planned security program milestones delivered on schedule this period","up",85,70]],
+			"GV.02":[["Data ownership coverage","% of critical data assets with an assigned, active data owner","up",95,80],
+			["Masked non-production data","% of non-production environments using masked or synthetic data instead of production PII","up",95,85]],
+			"GV.03":[["Control implementation","% of applicable controls implemented and evidenced across mapped frameworks","up",90,75],
+			["Audit findings closed on time","% of audit and assessment findings closed by their agreed deadline","up",90,70]],
+			"GV.04":[["Budget variance","Absolute deviation of actual security spend from the planned budget, as % of budget","down",5,15],
+			["Projects within budget","% of security projects completed within their approved budget","up",85,70]],
+			"ID.01":[["Asset record completeness","% of assets in the CMDB with an owner and classification recorded","up",95,85],
+			["Discovery reconciliation","% of assets found by network and cloud discovery that are registered in the CMDB","up",98,90]],
+			"ID.02":[["Threat model coverage","% of high-risk applications and major changes with a threat model updated in the last 12 months","up",90,70],
+			["Pentest findings fixed in SLA","% of critical and high pentest or red team findings remediated within SLA","up",90,75]],
+			"ID.03":[["Advisory triage speed","% of relevant threat advisories triaged within 24 hours","up",95,80],
+			["Actionable intelligence","% of priority intelligence items that led to a concrete action (detection, block, patch)","up",60,30]],
+			"ID.04":[["Supplier assessment coverage","% of critical and high-tier suppliers with a security assessment in the last 12 months","up",95,80],
+			["Supplier offboarding","% of offboarded suppliers whose access was revoked within 5 working days","up",98,90]],
+			"PR.01":[["Endpoint protection coverage","% of endpoints and servers with active, up-to-date EDR or endpoint protection","up",98,95],
+			["MDM compliance","% of mobile devices accessing company data that are enrolled and compliant in MDM","up",98,90]],
+			"PR.02":[["Firewall rule review","% of firewall rules reviewed and re-approved in the last 12 months","up",95,80],
+			["Overly permissive rules","% of firewall rules allowing any/any or overly broad access","down",1,5]],
+			"PR.03":[["Critical vulns fixed in SLA","% of critical and high vulnerabilities remediated within SLA","up",95,80],
+			["Authenticated scan coverage","% of in-scope assets covered by credentialed vulnerability scanning","up",95,80]],
+			"PR.04":[["Baseline compliance","% of systems compliant with their hardening baseline","up",95,85],
+			["Deviations with approved exception","% of baseline deviations covered by an approved, unexpired exception","up",98,90]],
+			"PR.05":[["Encryption at rest","% of data stores holding confidential data that are encrypted at rest","up",99,95],
+			["Certificate renewal hygiene","% of certificates renewed at least 30 days before expiry","up",98,90]],
+			"PR.06":[["Release security testing","% of mobile app releases that passed security testing before release","up",95,85],
+			["App hardening coverage","% of mobile apps with code obfuscation and anti-tampering enabled","up",95,80]],
+			"PR.07":[["Physical access recertification","% of physical access rights recertified within the review cycle","up",98,90],
+			["Leaver badge deactivation","% of leavers' badges deactivated on or before their last working day","up",99,95]],
+			"PR.08":[["Leaver account removal","% of leaver accounts disabled within 24 hours of departure","up",99,95],
+			["MFA coverage","% of user and privileged accounts protected by MFA","up",99,95]],
+			"PR.09":[["Classification coverage","% of documents and data stores carrying a classification label","up",90,70],
+			["DLP alert handling","% of DLP alerts triaged within SLA","up",95,80]],
+			"PR.10":[["Training completion","% of staff who completed mandatory security training on time","up",95,85],
+			["Phishing click rate","% of recipients who clicked in the latest phishing simulation","down",5,15]],
+			"PR.11":[["Brand abuse takedown","% of brand-abuse findings (look-alike domains, fake accounts) taken down within 72 hours","up",90,70],
+			["DMARC enforcement","% of company domains with DMARC set to p=reject","up",95,80]],
+			"PR.12":[["Pipeline security gates","% of repositories with automated SAST and dependency scanning in CI/CD","up",95,80],
+			["Findings fixed before release","% of critical and high code findings fixed before release","up",95,85]],
+			"PR.13":[["Cloud posture score","% of cloud resources passing CSPM policy checks","up",95,85],
+			["Critical misconfigs fixed in SLA","% of critical CSPM findings remediated within SLA","up",95,80]],
+			"PR.14":[["IoT inventory coverage","% of IoT devices seen on the network that are identified and inventoried","up",95,80],
+			["IoT segmentation","% of IoT devices placed in dedicated, restricted network segments","up",95,80]],
+			"PR.15":[["SaaS SSO coverage","% of SaaS applications integrated with corporate SSO","up",90,75],
+			["SaaS vendor assurance","% of business-critical SaaS vendors with current assurance (SOC 2, ISO 27001)","up",95,80]],
+			"PR.16":[["OT/IT separation","% of OT assets located in zones segmented from the IT network","up",95,85],
+			["Controlled remote OT access","% of remote OT access sessions through an approved, monitored jump host","up",99,95]],
+			"PR.17":[["AI-assisted change review","% of IT changes analysed by AI against current policy before approval","up",80,50],
+			["AI answer accuracy","% of AI policy answers and change assessments rated correct in human spot-checks","up",90,75]],
+			"DE.01":[["Log source coverage","% of in-scope assets sending security logs to the SIEM","up",95,85],
+			["Log ingestion health","% of log sources with no ingestion gap longer than 24 hours this period","up",98,90]],
+			"DE.02":[["ATT&CK detection coverage","% of MITRE ATT&CK techniques in the threat profile covered by detections","up",70,40],
+			["False positive rate","% of alerts closed as false positives","down",20,50]],
+			"RR.01":[["Critical alert triage time","% of critical alerts triaged within 15 minutes","up",95,80],
+			["Containment within target","% of confirmed incidents contained within the target time","up",90,75]],
+			"RR.02":[["Incident escalation in SLA","% of incidents classified and escalated within SLA","up",95,80],
+			["Playbooks exercised","% of incident playbooks tested or exercised in the last 12 months","up",90,60]],
+			"RR.03":[["DR tests meeting RTO","% of critical systems with a DR test in the last 12 months that met the RTO","up",95,80],
+			["Backup restore success","% of backup restore tests completed successfully","up",98,90]]
+		};
+		const KDEF = {};
+		const KST_LABEL = {pass:"Pass", risk:"At risk", fail:"Fail"};
+		function kStatus(kid, v){
+			const d = KDEF[kid];
+			if (v === undefined || v === null || !d) return null;
+			if (d.dir === "up") return v >= d.pass ? "pass" : v < d.fail ? "fail" : "risk";
+			return v <= d.pass ? "pass" : v > d.fail ? "fail" : "risk";
+		}
+		const fmt = v => (Math.round(v * 10) / 10).toString();
+		
+		/* ---------- helpers ---------- */
+		const $ = s => document.querySelector(s);
+		const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+		const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+		const ALL = FUNCS.flatMap(f => f.topics);
+		/* ---------- example dataset: Example Corp. (fictional enterprise) ---------- */
+		const EXAMPLE = {
+			ratings: {
+				"GV.01":3, "GV.02":2, "GV.03":3, "GV.04":3,
+				"ID.01":2, "ID.02":3, "ID.03":2, "ID.04":2,
+				"PR.01":4, "PR.02":3, "PR.03":3, "PR.04":2, "PR.05":4, "PR.06":2, "PR.07":5, "PR.08":3, "PR.09":2,
+				"PR.10":4, "PR.11":3, "PR.12":2, "PR.13":3, "PR.14":1, "PR.15":2, "PR.16":1, "PR.17":1,
+				"DE.01":3, "DE.02":3,
+				"RR.01":4, "RR.02":3, "RR.03":2
+			},
+			kpis: {
+				"GV.01-1":88, "GV.01-2":72, "GV.02-1":64, "GV.02-2":70, "GV.03-1":86, "GV.03-2":78, "GV.04-1":7, "GV.04-2":82,
+				"ID.01-1":81, "ID.01-2":89, "ID.02-1":58, "ID.02-2":84, "ID.03-1":92, "ID.03-2":41, "ID.04-1":71, "ID.04-2":93,
+				"PR.01-1":98.6, "PR.01-2":95, "PR.02-1":83, "PR.02-2":3.2, "PR.03-1":87, "PR.03-2":91, "PR.04-1":79, "PR.04-2":84,
+				"PR.05-1":99.5, "PR.05-2":97, "PR.06-1":80, "PR.06-2":85, "PR.07-1":99, "PR.07-2":99.4, "PR.08-1":96, "PR.08-2":99.2,
+				"PR.09-1":46, "PR.09-2":77, "PR.10-1":97, "PR.10-2":4.1, "PR.11-1":88, "PR.11-2":96, "PR.12-1":68, "PR.12-2":81,
+				"PR.13-1":91, "PR.13-2":83, "PR.14-1":52, "PR.14-2":38, "PR.15-1":74, "PR.15-2":88, "PR.16-1":61, "PR.16-2":90,
+				"PR.17-1":12,
+				"DE.01-1":93, "DE.01-2":97, "DE.02-1":48, "DE.02-2":34,
+				"RR.01-1":96, "RR.01-2":92, "RR.02-1":94, "RR.02-2":55, "RR.03-1":67, "RR.03-2":94
+			},
+			reg: {
+				seq: {risk:9, finding:7},
+				risks: [
+					{id:"R-001", topic:"PR.03", title:"Unsupported Windows Server 2012 hosts in production", desc:"About 40 servers no longer receive security updates and cannot be patched until the ERP migration completes.", likelihood:4, impact:4, treatment:"Mitigate", owner:"Head of Infrastructure", due:"2026-12-31", status:"In treatment", created:"2026-05-12"},
+					{id:"R-002", topic:"ID.04", title:"Critical payroll SaaS provider not assessed in two years", desc:"The provider processes all employee PII; last due-diligence assessment dates from 2024.", likelihood:3, impact:4, treatment:"Mitigate", owner:"Third Party Risk Manager", due:"2026-11-30", status:"Open", created:"2026-07-03"},
+					{id:"R-003", topic:"PR.16", title:"Flat network between plant OT and corporate IT", desc:"Production line PLCs are reachable from office workstations; a compromise in IT could stop production.", likelihood:3, impact:5, treatment:"Mitigate", owner:"OT Security Lead", due:"2027-03-31", status:"In treatment", created:"2026-02-20"},
+					{id:"R-004", topic:"PR.12", title:"Secrets committed to source code repositories", desc:"Secret scanning found API keys and database passwords in 14 repositories.", likelihood:4, impact:3, treatment:"Mitigate", owner:"AppSec Lead", due:"2026-10-15", status:"Open", created:"2026-08-28"},
+					{id:"R-005", topic:"RR.03", title:"Ransomware recovery would exceed ERP RTO", desc:"Restore of the ERP platform from immutable backup takes an estimated 72 hours against a 24-hour RTO.", likelihood:2, impact:5, treatment:"Mitigate", owner:"IT Continuity Manager", due:"2027-01-31", status:"Open", created:"2026-06-17"},
+					{id:"R-006", topic:"PR.09", title:"Confidential files shared via personal cloud storage", desc:"No technical control prevents uploads to personal cloud accounts from managed laptops.", likelihood:3, impact:3, treatment:"Mitigate", owner:"Data Protection Officer", due:"2027-02-28", status:"Open", created:"2026-09-04"},
+					{id:"R-007", topic:"PR.17", title:"Staff pasting sensitive data into public AI tools", desc:"Proxy logs show regular use of public AI chat tools; no approved alternative or usage policy is in place yet.", likelihood:4, impact:3, treatment:"Mitigate", owner:"CISO", due:"2026-12-15", status:"In treatment", created:"2026-07-21"},
+					{id:"R-008", topic:"PR.07", title:"Tailgating possible at secondary office entrance", desc:"Side entrance has a badge reader but no turnstile; low footfall and CCTV coverage make this acceptable.", likelihood:2, impact:2, treatment:"Accept", owner:"Facilities Manager", due:"", status:"Accepted", created:"2026-03-09"},
+					{id:"R-009", topic:"PR.08", title:"Orphaned admin accounts after reorganisation", desc:"Privileged accounts of moved staff were not reviewed. Resolved by a one-off recertification.", likelihood:3, impact:4, treatment:"Mitigate", owner:"IAM Lead", due:"2026-06-30", status:"Closed", created:"2026-04-02"}
+				],
+				findings: [
+					{id:"F-001", topic:"GV.03", title:"Statement of Applicability not aligned with ISO/IEC 27001:2022 Annex A", desc:"The SoA still references 2013 controls; new controls such as threat intelligence and data masking are missing.", source:"ISO 27001 surveillance audit 2026", severity:"high", owner:"ISMS Manager", due:"2026-12-15", status:"In progress", created:"2026-09-18"},
+					{id:"F-002", topic:"PR.08", title:"Leaver accounts remained active for up to 45 days", desc:"Sample of 25 leavers: 6 accounts were disabled more than 24 hours after departure.", source:"Internal audit – IAM review Q2 2026", severity:"high", owner:"IAM Lead", due:"2026-09-30", status:"In progress", created:"2026-06-25"},
+					{id:"F-003", topic:"ID.01", title:"CMDB missing 18% of servers found by network discovery", desc:"Unregistered servers have no owner and are outside the patch and backup process.", source:"External audit – ITGC 2026", severity:"medium", owner:"IT Asset Manager", due:"2027-01-31", status:"Open", created:"2026-10-02"},
+					{id:"F-004", topic:"RR.02", title:"Incident response plan not tested in the last 12 months", desc:"No tabletop or technical exercise is evidenced; ransomware playbook has never been rehearsed.", source:"NIS2 readiness assessment", severity:"high", owner:"Incident Response Lead", due:"2026-11-30", status:"Open", created:"2026-08-11"},
+					{id:"F-005", topic:"PR.02", title:"Firewall rule review not evidenced for 3 of 7 firewalls", desc:"Annual review records exist for the perimeter firewalls only.", source:"SOC 2 Type II audit 2026", severity:"medium", owner:"Network Security Engineer", due:"2026-12-31", status:"Open", created:"2026-09-30"},
+					{id:"F-006", topic:"GV.02", title:"Production customer data used in test environments", desc:"Full copies of the CRM database, including PII, are refreshed monthly into two test environments without masking.", source:"GDPR privacy audit 2026", severity:"critical", owner:"Data Protection Officer", due:"2026-11-15", status:"In progress", created:"2026-07-14"},
+					{id:"F-007", topic:"PR.10", title:"Contractors excluded from security awareness training", desc:"External staff with network access were not enrolled. Resolved: contractors added to the LMS in August.", source:"ISO 27001 internal audit 2026", severity:"low", owner:"HR Business Partner", due:"2026-08-31", status:"Closed", created:"2026-05-06"}
+				]
+			}
+		};
+		
+		/* ---------- Example Corp.: direction (targets, owners, reviews, initiatives) ---------- */
+		EXAMPLE.plan = {
+			seq: 11,
+			topics: {
+				"GV.01":{target:4, by:"2027-Q4", owner:"CISO", reviewed:"2026-09-15"},
+				"GV.02":{target:3, by:"2027-Q4", owner:"Data Protection Officer", reviewed:"2026-02-10"},
+				"GV.03":{target:4, by:"2027-Q2", owner:"ISMS Manager", reviewed:"2026-09-22"},
+				"GV.04":{target:3, by:"2026-Q4", owner:"CISO", reviewed:"2026-06-30"},
+				"ID.01":{target:4, by:"2027-Q4", owner:"IT Asset Manager", reviewed:"2025-08-19"},
+				"ID.02":{target:4, by:"2027-Q4", owner:"Security Architect", reviewed:"2026-07-08"},
+				"ID.03":{target:3, by:"2027-Q2", owner:"Threat Intelligence Lead", reviewed:"2026-03-03"},
+				"ID.04":{target:3, by:"2027-Q2", owner:"Third Party Risk Manager", reviewed:"2026-08-27"},
+				"PR.01":{target:4, by:"2026-Q4", owner:"Head of Workplace IT", reviewed:"2026-05-20"},
+				"PR.02":{target:4, by:"2027-Q4", owner:"Network Security Engineer", reviewed:"2025-11-12"},
+				"PR.03":{target:4, by:"2027-Q2", owner:"Head of Infrastructure", reviewed:"2026-09-01"},
+				"PR.04":{target:3, by:"2027-Q2", owner:"Head of Infrastructure", reviewed:"2026-09-01"},
+				"PR.05":{target:4, by:"2026-Q4", owner:"Security Architect", reviewed:"2026-04-14"},
+				"PR.06":{target:3, by:"2027-Q4"},
+				"PR.07":{target:5, by:"2026-Q4", owner:"Facilities Manager", reviewed:"2025-06-02"},
+				"PR.08":{target:4, by:"2027-Q4", owner:"IAM Lead", reviewed:"2026-10-02"},
+				"PR.09":{target:3, by:"2027-Q4", owner:"Data Protection Officer", reviewed:"2026-02-10"},
+				"PR.10":{target:4, by:"2026-Q4", owner:"Security Awareness Lead", reviewed:"2026-07-30"},
+				"PR.11":{target:3, by:"2026-Q4", owner:"Head of Marketing & Communications"},
+				"PR.12":{target:3, by:"2027-Q2", owner:"AppSec Lead", reviewed:"2026-08-14"},
+				"PR.13":{target:4, by:"2027-Q4", owner:"Cloud Platform Lead", reviewed:"2026-06-11"},
+				"PR.14":{target:3, by:"2027-Q4", owner:"OT Security Lead", reviewed:"2026-01-20"},
+				"PR.15":{target:3, by:"2027-Q2", owner:"Head of Business Applications", reviewed:"2026-05-05"},
+				"PR.16":{target:4, by:"2028-Q2", owner:"OT Security Lead", reviewed:"2026-01-20"},
+				"PR.17":{target:3, by:"2027-Q2", owner:"CISO", reviewed:"2026-09-15"},
+				"DE.01":{target:4, by:"2027-Q4", owner:"SOC Manager", reviewed:"2026-08-03"},
+				"DE.02":{target:4, by:"2028-Q2", owner:"SOC Manager", reviewed:"2026-08-03"},
+				"RR.01":{target:4, by:"2026-Q4", owner:"SOC Manager", reviewed:"2026-08-03"},
+				"RR.02":{target:4, by:"2027-Q4", owner:"Incident Response Lead", reviewed:"2025-09-30"},
+				"RR.03":{target:4, by:"2027-Q4", owner:"IT Continuity Manager", reviewed:"2026-06-17"}
+			},
+			initiatives: [
+				{id:"I-001", title:"ERP migration & legacy server decommissioning", desc:"Move the remaining ERP workloads to supported platforms and retire the Windows Server 2012 estate.", owner:"Head of Infrastructure", status:"In progress", start:"2026-04-01", end:"2027-03-31", budget:450000, uplift:1, topics:["PR.03","PR.04"], risks:["R-001"], findings:[], created:"2026-03-02"},
+				{id:"I-002", title:"Third-party risk programme relaunch", desc:"Risk-tier all suppliers, reassess critical SaaS providers and introduce continuous monitoring.", owner:"Third Party Risk Manager", status:"Planned", start:"2026-10-01", end:"2027-06-30", budget:120000, uplift:1, topics:["ID.04","PR.15"], risks:["R-002"], findings:[], created:"2026-07-10"},
+				{id:"I-003", title:"OT network segmentation & IoT inventory", desc:"Separate plant OT from corporate IT, introduce IoT NAC and build a complete device inventory.", owner:"OT Security Lead", status:"In progress", start:"2026-07-01", end:"2027-12-31", budget:380000, uplift:2, topics:["PR.16","PR.14"], risks:["R-003"], findings:[], created:"2026-03-15"},
+				{id:"I-004", title:"Secrets management & CI/CD security gates", desc:"Central vault for secrets, secret scanning and SAST gates on all pipelines.", owner:"AppSec Lead", status:"In progress", start:"2026-09-01", end:"2027-06-30", budget:160000, uplift:1, topics:["PR.12"], risks:["R-004"], findings:[], created:"2026-08-30"},
+				{id:"I-005", title:"Data protection uplift: DLP & test-data masking", desc:"Endpoint and cloud DLP, plus masked or synthetic data for all non-production environments.", owner:"Data Protection Officer", status:"Planned", start:"2026-11-01", end:"2027-09-30", budget:210000, uplift:1, topics:["PR.09","GV.02"], risks:["R-006"], findings:["F-006"], created:"2026-09-05"},
+				{id:"I-006", title:"Ransomware resilience & DR testing", desc:"Faster ERP restore from immutable backup, annual DR tests and a rehearsed ransomware playbook.", owner:"IT Continuity Manager", status:"Planned", start:"2027-01-01", end:"2027-12-31", budget:260000, uplift:1, topics:["RR.03","RR.02"], risks:["R-005"], findings:["F-004"], created:"2026-08-20"},
+				{id:"I-007", title:"Approved enterprise AI platform & AI usage policy", desc:"Roll out an approved AI assistant with data protections and publish an AI acceptable-use policy.", owner:"CISO", status:"In progress", start:"2026-10-01", end:"2027-03-31", budget:90000, uplift:1, topics:["PR.17","GV.01"], risks:["R-007"], findings:[], created:"2026-07-22"},
+				{id:"I-008", title:"ISO/IEC 27001:2022 transition", desc:"Update the SoA, risk methodology and new Annex A controls ahead of the transition deadline.", owner:"ISMS Manager", status:"In progress", start:"2026-06-01", end:"2026-12-31", budget:60000, uplift:1, topics:["GV.03"], risks:[], findings:["F-001"], created:"2026-05-12"},
+				{id:"I-009", title:"Asset discovery & CMDB clean-up", desc:"Automated discovery across network and cloud, reconciled daily with the CMDB.", owner:"IT Asset Manager", status:"Proposed", start:"2027-01-01", end:"2027-06-30", budget:75000, uplift:1, topics:["ID.01"], risks:[], findings:["F-003"], created:"2026-10-06"},
+				{id:"I-010", title:"Joiner-mover-leaver automation", desc:"HR-driven provisioning and same-day deprovisioning for all core applications.", owner:"IAM Lead", status:"Completed", start:"2026-02-01", end:"2026-09-30", budget:140000, uplift:1, topics:["PR.08"], risks:["R-009"], findings:["F-002"], created:"2026-01-15"},
+				{id:"I-011", title:"Detection engineering programme", desc:"Build custom detections against the MITRE ATT&CK techniques in our threat profile and tune out noise.", owner:"SOC Manager", status:"Proposed", start:"2027-04-01", end:"2028-03-31", budget:180000, uplift:1, topics:["DE.02","DE.01"], risks:[], findings:[], created:"2026-10-12"}
+			]
+		};
+		
+		/* ---------- data sets & storage ---------- */
+		const KEY = "ciso-mind-map-2026-ratings";
+		const KKEY = "ciso-mind-map-2026-kpis";
+		const RKEY = "ciso-mind-map-2026-register";
+		const PKEY = "ciso-mind-map-2026-plan";
+		const MKEY = "ciso-mind-map-2026-mode";
+		const VKEY = "ciso-mind-map-2026-view";
+		const MODES = {blank:"Blank", example:"Example Corp.", saved:"Saved"};
+		const emptyReg = () => ({risks:[], findings:[], seq:{risk:0, finding:0}});
+		const emptyPlan = () => ({topics:{}, initiatives:[], seq:0});
+		const readJSON = k => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
+		function dataFor(m){
+			if (m === "example") return JSON.parse(JSON.stringify(EXAMPLE));
+			if (m === "blank") return {ratings:{}, kpis:{}, reg:emptyReg(), plan:emptyPlan()};
+			let r = readJSON(RKEY);
+			if (!r || !Array.isArray(r.risks) || !Array.isArray(r.findings)) r = emptyReg();
+			let p = readJSON(PKEY);
+			if (!p || typeof p.topics !== "object" || !p.topics || !Array.isArray(p.initiatives)) p = emptyPlan();
+			return {ratings: readJSON(KEY) || {}, kpis: readJSON(KKEY) || {}, reg: r, plan: p};
+		}
+		let mode = readJSON(MKEY);
+		if (!MODES[mode]) {
+			// first visit: show Example Corp., unless this browser already holds saved data
+			const hasSaved = [KEY, KKEY, RKEY, PKEY].some(k => { try { return localStorage.getItem(k) !== null; } catch (e) { return false; } });
+			mode = hasSaved ? "saved" : "example";
+		}
+		let {ratings, kpis: kpiVals, reg, plan} = dataFor(mode);
+		// only the "Saved" data set is written to browser storage
+		const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+		function save(){ if (mode === "saved") put(KEY, ratings); }
+		function saveK(){ if (mode === "saved") put(KKEY, kpiVals); }
+		function saveReg(){ if (mode === "saved") put(RKEY, reg); }
+		function savePlan(){ if (mode === "saved") put(PKEY, plan); }
+		
+		/* ---------- plan helpers (targets, owners, reviews) ---------- */
+		const pad2 = n => String(n).padStart(2, "0");
+		const today = (() => { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; })();
+		const T = id => plan.topics[id] || {};
+		function setT(id, k, v){
+			const o = plan.topics[id] || (plan.topics[id] = {});
+			if (v === "" || v == null || v === 0) delete o[k]; else o[k] = v;
+			if (!Object.keys(o).length) delete plan.topics[id];
+			savePlan();
+		}
+		const qLabel = s => s ? s.replace(/^(\d{4})-(Q\d)$/, "$2 $1") : "";
+		const QUARTERS = (() => { const a = [], y0 = +today.slice(0, 4); for (let y = y0; y <= y0 + 4; y++) for (let q = 1; q <= 4; q++) a.push(`${y}-Q${q}`); return a; })();
+		function monthsSince(d){
+			const [y, m, dd] = d.split("-").map(Number), [ty, tm, td] = today.split("-").map(Number);
+			return (ty - y) * 12 + (tm - m) - (td < dd ? 1 : 0);
+		}
+		const REVIEW = {
+			ok:      {name:"Reviewed",       c:"var(--l4)"},
+			due:     {name:"Review due",     c:"var(--l2)"},
+			overdue: {name:"Review overdue", c:"var(--l1)"},
+			never:   {name:"Never reviewed", c:"var(--muted)"}
+		};
+		function reviewState(id){
+			const r = T(id).reviewed;
+			if (!r) return "never";
+			const m = monthsSince(r);
+			return m >= 12 ? "overdue" : m >= 6 ? "due" : "ok";
+		}
+		function gapOf(id){ const t = T(id).target, c = ratings[id]; return t && c ? Math.max(0, t - c) : null; }
+		function gapStyle(g){
+			if (g == null) return null;
+			return g <= 0 ? {c:"var(--l4)", t:"#fff"} : g === 1 ? {c:"var(--sev-med)", t:"var(--text)"} : g === 2 ? {c:"var(--l2)", t:"#fff"} : {c:"var(--l1)", t:"#fff"};
+		}
+		const avgOf = arr => { const v = arr.filter(Boolean); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : 0; };
+		function setTick(el, v){ if (!el) return; el.style.display = v ? "block" : "none"; if (v) { el.style.left = (v / 5 * 100) + "%"; el.title = "Target average " + v.toFixed(1); } }
+		
+		/* ---------- scale legend ---------- */
+		$("#scale").innerHTML = [1,2,3,4,5].map(n =>
+		`<div class="lvl"><span class="sw" style="background:var(--l${n});color:${n===3?"var(--text)":"#fff"}">${n}</span><b>${LEVELS[n].name}</b><p>${LEVELS[n].desc}</p></div>`
+		).join("");
+		
+		/* ---------- board ---------- */
+		const board = $("#board");
+		const chevron = '<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 3.5 3 3 3-3"/></svg>';
+		
+		FUNCS.forEach((f, fi) => {
+			const col = document.createElement("section");
+			col.className = "col" + (f.wide ? " wide" : "");
+			col.setAttribute("aria-labelledby", "h-" + f.id);
+			col.innerHTML = `
+			<header class="col-head">
+			<div class="ch-top"><span>${String(fi+1).padStart(2,"0")}</span><span>${f.id} · ${f.topics.length} topics</span></div>
+			<h2 id="h-${f.id}">${esc(f.name)}</h2>
+			<p>${esc(f.sub)}</p>
+			<div class="ch-avg"><div class="ch-track"><i id="bar-${f.id}"></i><b class="tmark" id="tm-${f.id}"></b></div><span class="ch-txt" id="txt-${f.id}"></span></div>
+			</header>
+			<div class="cards"></div>`;
+			const cards = col.querySelector(".cards");
+			// wide function (Protect): three explicit sub-columns, filled top-to-bottom in topic order
+			const subs = f.wide ? [0,1,2].map(() => { const d = document.createElement("div"); d.className = "subcol"; cards.appendChild(d); return d; }) : null;
+			const per = Math.ceil(f.topics.length / 3);
+			f.topics.forEach((t, ti) => {
+				t.id = f.id + "." + String(ti+1).padStart(2,"0");
+				t.fn = f.name;
+				(subs ? subs[Math.floor(ti / per)] : cards).appendChild(makeCard(t));
+			});
+			board.appendChild(col);
+		});
+		
+		/* ---------- minimap ---------- */
+		const SHORT = {
+			"ID.02":"Risk, Threats & Pentests",
+			"ID.03":"Threat Intelligence",
+			"ID.04":"Third Party Risk (TPRM)",
+			"PR.01":"Endpoint & MDM",
+			"PR.08":"Identity & Access (IAM)",
+			"PR.14":"IoT Security",
+			"PR.04":"Hardening & Secure Config",
+			"PR.10":"Security Awareness",
+			"PR.12":"Secure Development",
+			"PR.16":"OT / ICS / SCADA",
+			"GV.03":"Standards & Privacy",
+			"RR.01":"Security Operations (SOC)",
+			"RR.03":"BCM & Disaster Recovery"
+		};
+		const minimap = $("#minimap");
+		minimap.innerHTML = FUNCS.map((f, fi) => `
+		<div class="mm-g${f.wide ? " wide" : ""}">
+		<div class="mm-h"><b><span>${String(fi+1).padStart(2,"0")}</span>${esc(f.name)}</b><div class="mm-track"><i id="mmbar-${f.id}"></i><b class="tmark" id="mmtm-${f.id}"></b></div><em id="mmavg-${f.id}"></em></div>
+		<div class="mm-list"${f.wide ? ` style="grid-template-rows:repeat(${Math.ceil(f.topics.length / 2)},auto)"` : ""}>${f.topics.map(t =>
+			`<button type="button" class="mm-t" data-id="${t.id}" data-t="${esc(t.t)}"><i>–</i><span class="mm-n">${esc(SHORT[t.id] || t.t)}</span><span class="mm-ind"><em class="mm-k">${(KPIS[t.id] || []).map(() => "<s></s>").join("")}</em><em class="mm-rf"></em></span></button>`
+		).join("")}</div>
+		</div>`).join("");
+		
+		function jumpTo(id){
+			const c = board.querySelector(`.card[data-id="${id}"]`);
+			if (!c) return;
+			if (view !== "current") setView("current");
+			requestAnimationFrame(() => {
+				c.scrollIntoView({behavior:"smooth", block:"center", inline:"center"});
+				c.classList.remove("flash"); void c.offsetWidth; c.classList.add("flash");
+			});
+		}
+		minimap.addEventListener("click", e => {
+			const b = e.target.closest(".mm-t");
+			if (b) jumpTo(b.dataset.id);
+		});
+			
+			function paintMinimap(){
+				minimap.querySelectorAll(".mm-t").forEach(b => {
+					const n = ratings[b.dataset.id] || 0;
+					b.classList.toggle("rated", !!n);
+					b.style.setProperty("--c", n ? `var(--l${n})` : "");
+					b.style.setProperty("--ct", n ? (n === 3 ? "var(--text)" : "#fff") : "");
+					b.querySelector("i").textContent = n || "–";
+					const ks = [...b.querySelectorAll(".mm-k s")].map((dot, i) => {
+						const kid = b.dataset.id + "-" + (i+1), v = kpiVals[kid], s = kStatus(kid, v);
+						dot.dataset.s = s || "";
+						return `KPI ${i+1}: ${KDEF[kid].n} — ${s ? fmt(v) + "% (" + KST_LABEL[s] + ")" : "no data"}`;
+					});
+					const rfTxt = [];
+					b.querySelector(".mm-rf").innerHTML = ["risk","finding"].map(type => {
+						const open = itemsFor(type, b.dataset.id).filter(isOpen);
+						if (!open.length) return "";
+						const sev = topSev(type, open);
+						rfTxt.push(`${open.length} open ${open.length === 1 ? TYPE[type].name.toLowerCase() : TYPE[type].plural.toLowerCase()} (highest: ${SEV[sev].name})`);
+						return `<b style="--c:${SEV[sev].c};--ct:${SEV[sev].t}">${TYPE[type].prefix}${open.length}</b>`;
+					}).join("");
+					b.title = `${b.dataset.id} · ${b.dataset.t} — ${n ? n + " · " + LEVELS[n].name : "Not rated"}\n${ks.join("\n")}${rfTxt.length ? "\n" + rfTxt.join("\n") : ""}`;
+				});
+				FUNCS.forEach(f => {
+					const v = f.topics.map(t => ratings[t.id]).filter(Boolean);
+					const avg = v.length ? v.reduce((a,b) => a+b, 0) / v.length : 0;
+					const bar = $("#mmbar-" + f.id);
+					bar.style.width = (avg / 5 * 100) + "%";
+					bar.style.background = v.length ? `var(--l${Math.round(avg)})` : "";
+					const tgt = avgOf(f.topics.map(t => T(t.id).target));
+					setTick($("#mmtm-" + f.id), tgt);
+					$("#mmavg-" + f.id).innerHTML = (v.length ? `Avg ${avg.toFixed(1)}` : "Not rated") + (tgt ? ` → target ${tgt.toFixed(1)}` : "") + `<br>${v.length}/${f.topics.length} rated`;
+				});
+			}
+			
+			function makeCard(t){
+				const a = document.createElement("article");
+				a.className = "card";
+				a.dataset.id = t.id;
+				const kp = KPIS[t.id] || [];
+				a.dataset.search = [t.t, t.one, t.long, ...t.kw, ...kp.map(k => k[0] + " " + k[1])].join(" ").toLowerCase();
+				const did = "d-" + t.id.replace(".", "-");
+				a.innerHTML = `
+				<div class="card-head"><span class="cid">${t.id}</span><span class="cown"></span><span class="badge">Not rated</span></div>
+				<h3>${esc(t.t)}</h3>
+				<p class="one">${esc(t.one)}</p>
+				<div class="desc clamp" id="${did}"><p>${esc(t.long)}</p></div>
+				<button class="more" type="button" aria-expanded="false" aria-controls="${did}"><span>Read more</span>${chevron}</button>
+				<p class="kw-label">Key topics</p>
+				<ul class="kw">${t.kw.map(k => `<li>${esc(cap(k))}</li>`).join("")}</ul>
+				${kp.length ? `<p class="kw-label">Operational KPIs</p><div class="kpis">${kp.map((k, i) => kpiHTML(t.id + "-" + (i+1), k)).join("")}</div>` : ""}
+				<p class="kw-label">Risks &amp; audit findings</p>
+				<div class="rf"></div>
+				<div class="rf-add"><button type="button" class="lnk" data-add="risk">+ Risk</button><button type="button" class="lnk" data-add="finding">+ Audit finding</button></div>
+				<div class="mat">
+				<div class="mat-row"><span class="mat-k">Maturity</span><span class="mat-v">Not rated</span></div>
+				<div class="seg" role="radiogroup" aria-label="Maturity rating for ${esc(t.t)}">
+				${[1,2,3,4,5].map(n => `<button type="button" role="radio" aria-checked="false" data-n="${n}" title="${n} · ${LEVELS[n].name}: ${esc(LEVELS[n].desc)}" aria-label="${n}, ${LEVELS[n].name}">${n}</button>`).join("")}
+				</div>
+				</div>`;
+				paintCard(a);
+				a.querySelectorAll(".kpi").forEach(paintKpi);
+				return a;
+			}
+			
+			function kpiHTML(kid, [n, d, dir, pass, fail]){
+				// zoom the bar to the range that matters: the at-risk band plus the same width again on the failing side
+				const span = Math.abs(pass - fail);
+				const lo = dir === "up" ? Math.max(0, Math.floor((fail - span) / 10) * 10) : 0;
+				const hi = dir === "up" ? 100 : Math.min(100, Math.ceil((fail + span) / 10) * 10);
+				const pct = x => (x - lo) / (hi - lo) * 100;
+				KDEF[kid] = {n, d, dir, pass, fail, pct};
+				const bands = dir === "up"
+				? [["f", pct(fail)], ["r", pct(pass) - pct(fail)], ["p", 100 - pct(pass)]]
+				: [["p", pct(pass)], ["r", pct(fail) - pct(pass)], ["f", 100 - pct(fail)]];
+				const th = dir === "up" ? `Pass ≥${pass}% · Fail &lt;${fail}%` : `Pass ≤${pass}% · Fail &gt;${fail}%`;
+				const v = kpiVals[kid];
+				return `
+				<div class="kpi" data-k="${kid}">
+				<div class="kpi-top"><span class="kpi-n">${esc(n)}</span><span class="kpi-st">No data</span></div>
+				<p class="kpi-d">${esc(d)}</p>
+				<div class="kpi-bar" title="${dir === "up" ? "Higher is better" : "Lower is better"}">
+				<div class="kpi-bands">${bands.map(([c, w]) => `<i class="b${c}" style="width:${w}%"></i>`).join("")}</div>
+				<b class="kpi-mk"></b>
+				</div>
+				<div class="kpi-ax"><span>${lo}%</span><span>${hi}%</span></div>
+				<div class="kpi-row">
+				<span class="kpi-th">${th}<span class="kpi-dir">${dir === "up" ? "↑ higher is better" : "↓ lower is better"}</span></span>
+				<label class="kpi-in"><input type="number" inputmode="decimal" min="0" max="100" step="0.1" placeholder="–" value="${v ?? ""}" aria-label="Current value for ${esc(n)} in percent">%</label>
+				</div>
+				</div>`;
+			}
+			
+			function paintKpi(k){
+				const v = kpiVals[k.dataset.k];
+				const s = kStatus(k.dataset.k, v);
+				const st = k.querySelector(".kpi-st");
+				st.dataset.s = s || "";
+				st.textContent = s ? KST_LABEL[s] : "No data";
+				const mk = k.querySelector(".kpi-mk");
+				mk.style.display = s ? "block" : "none";
+				if (s) { mk.style.left = Math.max(0, Math.min(100, KDEF[k.dataset.k].pct(v))) + "%"; mk.title = fmt(v) + "%"; }
+			}
+			
+			function paintCard(c){
+				const n = ratings[c.dataset.id] || 0;
+				c.dataset.level = n;
+				c.classList.toggle("rated", !!n);
+				const p = T(c.dataset.id), tg = p.target || 0, rs = reviewState(c.dataset.id);
+				c.querySelector(".badge").textContent = n ? `L${n} · ${LEVELS[n].name}` : "Not rated";
+				c.querySelector(".mat-v").innerHTML = (n ? `${n} · ${LEVELS[n].name}` : "Not rated")
+				+ (tg ? `<span class="tgt" title="Target maturity">→ target ${tg}${p.by ? " by " + qLabel(p.by) : ""}</span>` : "");
+				const own = c.querySelector(".cown");
+				own.innerHTML = p.owner || rs === "due" || rs === "overdue"
+				? `${rs === "due" || rs === "overdue" ? `<i class="rvdot" data-r="${rs}" style="--rc:${REVIEW[rs].c}"></i>` : ""}<span>${p.owner ? "· " + esc(p.owner) : "· No owner"}</span>`
+				: "";
+				own.title = `Accountable owner: ${p.owner || "not assigned"}\n${REVIEW[rs].name}${p.reviewed ? " (last " + p.reviewed + ")" : ""}`;
+				c.querySelectorAll(".seg button").forEach(b => {
+					const k = +b.dataset.n;
+					b.classList.toggle("tg", k === tg);
+					b.classList.toggle("fill", k <= n);
+					b.setAttribute("aria-checked", k === n ? "true" : "false");
+					b.tabIndex = (n ? k === n : k === 1) ? 0 : -1;
+				});
+			}
+			
+			function setRating(c, n){
+				const id = c.dataset.id;
+				if (!n || ratings[id] === n) delete ratings[id]; else ratings[id] = n;
+				save(); paintCard(c); updateStats();
+			}
+			
+			function toggleDesc(c, open){
+				c.querySelector(".desc").classList.toggle("clamp", !open);
+				const m = c.querySelector(".more");
+				m.setAttribute("aria-expanded", open ? "true" : "false");
+				m.querySelector("span").textContent = open ? "Show less" : "Read more";
+			}
+			
+			/* ---------- events ---------- */
+			board.addEventListener("click", e => {
+				const b = e.target.closest(".seg button");
+				if (b) { setRating(b.closest(".card"), +b.dataset.n); return; }
+				const ri = e.target.closest(".rf-i");
+				if (ri) { const it = findItem(ri.dataset.type, ri.dataset.rid); if (it) openDlg(ri.dataset.type, it); return; }
+				const ad = e.target.closest("[data-add]");
+				if (ad) { openDlg(ad.dataset.add, null, ad.closest(".card").dataset.id); return; }
+				const m = e.target.closest(".more");
+				if (m) toggleDesc(m.closest(".card"), m.getAttribute("aria-expanded") !== "true");
+			});
+				
+				board.addEventListener("input", e => {
+					const inp = e.target.closest(".kpi input");
+					if (!inp) return;
+					const k = inp.closest(".kpi");
+					const raw = inp.value.trim();
+					if (raw === "" || isNaN(+raw)) delete kpiVals[k.dataset.k];
+					else kpiVals[k.dataset.k] = Math.max(0, Math.min(100, +raw));
+					saveK(); paintKpi(k); updateStats();
+				});
+				
+				board.addEventListener("keydown", e => {
+					const b = e.target.closest(".seg button");
+					if (!b) return;
+					const c = b.closest(".card");
+					const cur = ratings[c.dataset.id] || +b.dataset.n;
+					let n = null;
+					if (e.key === "ArrowRight" || e.key === "ArrowUp") n = Math.min(5, cur + (ratings[c.dataset.id] ? 1 : 0));
+					if (e.key === "ArrowLeft" || e.key === "ArrowDown") n = Math.max(1, cur - (ratings[c.dataset.id] ? 1 : 0));
+					if (e.key === "Home") n = 1;
+					if (e.key === "End") n = 5;
+					if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); delete ratings[c.dataset.id]; save(); paintCard(c); updateStats(); return; }
+					if (n !== null) {
+						e.preventDefault();
+						ratings[c.dataset.id] = n; save(); paintCard(c); updateStats();
+						c.querySelector(`.seg button[data-n="${n}"]`).focus();
+					}
+				});
+				
+				board.addEventListener("mouseover", e => {
+					const b = e.target.closest(".seg button");
+					if (!b) return;
+					const n = +b.dataset.n;
+					b.parentElement.querySelectorAll("button").forEach(x => x.classList.toggle("pv", +x.dataset.n <= n));
+				});
+				board.addEventListener("mouseout", e => {
+					const seg = e.target.closest(".seg");
+					if (seg && !seg.contains(e.relatedTarget)) seg.querySelectorAll("button").forEach(x => x.classList.remove("pv"));
+				});
+					
+					/* ---------- risks & audit findings ---------- */
+					const SEV = {
+						low:      {name:"Low",      c:"var(--l3)",      t:"var(--text)", r:1},
+						medium:   {name:"Medium",   c:"var(--sev-med)", t:"var(--text)", r:2},
+						high:     {name:"High",     c:"var(--l2)",      t:"#fff",        r:3},
+						critical: {name:"Critical", c:"var(--l1)",      t:"#fff",        r:4}
+					};
+					const LIKELIHOOD = ["", "Rare", "Unlikely", "Possible", "Likely", "Almost certain"];
+					const IMPACT = ["", "Negligible", "Minor", "Moderate", "Major", "Severe"];
+					const TREATMENT = ["Mitigate", "Accept", "Transfer", "Avoid"];
+					const STATUSES = {risk:["Open","In treatment","Accepted","Closed"], finding:["Open","In progress","Risk accepted","Closed"]};
+					const TYPE = {
+						risk:    {name:"Risk",          plural:"Risks",          key:"risks",    prefix:"R"},
+						finding: {name:"Audit finding", plural:"Audit findings", key:"findings", prefix:"F"}
+					};
+					const riskLevel = s => s >= 15 ? "critical" : s >= 10 ? "high" : s >= 5 ? "medium" : "low";
+					const sevOf = (type, it) => type === "risk" ? riskLevel(it.likelihood * it.impact) : (SEV[it.severity] ? it.severity : "medium");
+					const topSev = (type, list) => list.reduce((best, it) => SEV[sevOf(type, it)].r > SEV[best].r ? sevOf(type, it) : best, "low");
+					const isOpen = it => it.status !== "Closed";
+					const isOverdue = it => isOpen(it) && !!it.due && it.due < today;
+					const fmtDate = s => { if (!s) return ""; const [y, m, d] = s.split("-").map(Number); return new Date(y, m-1, d).toLocaleDateString("en-GB", {day:"numeric", month:"short", year:"numeric"}); };
+					const chip = (sev, label) => `<b class="chip" style="--c:${SEV[sev].c};--ct:${SEV[sev].t}">${label ?? SEV[sev].name}</b>`;
+					const TOPIC = Object.fromEntries(ALL.map(t => [t.id, t]));
+					const itemsFor = (type, topic) => reg[TYPE[type].key].filter(it => it.topic === topic);
+					const findItem = (type, id) => reg[TYPE[type].key].find(it => it.id === id);
+					const sortItems = (type, list) => list.slice().sort((a, b) =>
+					(isOpen(b) - isOpen(a)) ||
+					(SEV[sevOf(type, b)].r - SEV[sevOf(type, a)].r) ||
+					(a.due || "9999").localeCompare(b.due || "9999") ||
+					a.id.localeCompare(b.id));
+					
+					function paintRF(c){
+						const id = c.dataset.id;
+						const rows = ["risk","finding"].flatMap(type => sortItems(type, itemsFor(type, id)).map(it => ({type, it})));
+						rows.sort((a, b) => isOpen(b.it) - isOpen(a.it));
+						c.querySelector(".rf").innerHTML = rows.length ? rows.map(({type, it}) => {
+							const sev = sevOf(type, it);
+							const tip = `${TYPE[type].name} ${it.id}: ${it.title} — ${type === "risk" ? `score ${it.likelihood * it.impact} (${SEV[sev].name})` : SEV[sev].name}, ${it.status}${it.due ? ", due " + fmtDate(it.due) : ""}`;
+							return `<button type="button" class="rf-i${isOpen(it) ? "" : " closed"}" data-type="${type}" data-rid="${it.id}" title="${esc(tip)}">`
+							+ `${chip(sev)}<span class="rf-id">${it.id}</span><span class="rf-t">${esc(it.title)}</span>`
+							+ `<span class="rf-st${isOverdue(it) ? " od" : ""}">${isOverdue(it) ? "Overdue" : esc(it.status)}</span></button>`;
+						}).join("") : `<p class="rf-empty">None recorded</p>`;
+					}
+					function paintAllRF(){ document.querySelectorAll(".card").forEach(paintRF); }
+					
+					/* register table */
+					let regTab = "risk";
+					const topicOpts = FUNCS.map(f => `<optgroup label="${esc(f.name)}">${f.topics.map(t => `<option value="${t.id}">${t.id} · ${esc(t.t)}</option>`).join("")}</optgroup>`).join("");
+					$("#fTopic").innerHTML = `<option value="">All topics</option>` + topicOpts;
+					
+					function renderRegister(){
+						const oR = reg.risks.filter(isOpen).length, oF = reg.findings.filter(isOpen).length;
+						$("#cntR").textContent = oR;
+						$("#cntF").textContent = oF;
+						$("#regCount").textContent = oR + oF;
+						document.querySelectorAll(".tab").forEach(b => {
+							const on = b.dataset.tab === regTab;
+							b.classList.toggle("on", on);
+							b.setAttribute("aria-selected", on ? "true" : "false");
+						});
+						$("#regAdd").textContent = "+ Add " + TYPE[regTab].name.toLowerCase();
+						const ft = $("#fTopic").value, fs = $("#fStatus").value;
+						const list = sortItems(regTab, reg[TYPE[regTab].key].filter(it =>
+						(!ft || it.topic === ft) && (!fs || (fs === "open" ? isOpen(it) : !isOpen(it)))));
+						const cols = regTab === "risk"
+						? ["ID","Topic","Risk","L × I","Score","Treatment","Owner","Due","Status"]
+						: ["ID","Topic","Finding","Source","Severity","Owner","Due","Status"];
+						$("#regHead").innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join("")}</tr>`;
+						$("#regBody").innerHTML = list.map(it => {
+							const sev = sevOf(regTab, it), tp = TOPIC[it.topic];
+							const by = plan.initiatives.filter(i => (i[TYPE[regTab].key] || []).includes(it.id));
+							const mid = regTab === "risk"
+							? `<td class="nw" title="Likelihood ${it.likelihood} (${LIKELIHOOD[it.likelihood]}) × Impact ${it.impact} (${IMPACT[it.impact]})">${it.likelihood} × ${it.impact}</td>`
+							+ `<td class="nw">${chip(sev, `${it.likelihood * it.impact} · ${SEV[sev].name}`)}</td><td>${esc(it.treatment || "–")}</td>`
+							: `<td>${esc(it.source || "–")}</td><td class="nw">${chip(sev)}</td>`;
+							return `<tr class="${isOpen(it) ? "" : "closed"}" data-rid="${it.id}" tabindex="0">`
+							+ `<td class="mono nw">${it.id}</td>`
+							+ `<td><button type="button" class="jump" data-jump="${esc(it.topic)}" title="Show topic">${esc(it.topic)}</button><small class="tp">${esc(tp ? (SHORT[it.topic] || tp.t) : "Unknown topic")}</small></td>`
+							+ `<td class="tt"><b>${esc(it.title)}</b>${it.desc ? `<small>${esc(it.desc)}</small>` : ""}${by.length ? `<span class="by" title="${esc(by.map(i => i.id + " · " + i.title).join("\n"))}">Addressed by ${by.map(i => i.id).join(", ")}</span>` : ""}</td>`
+							+ mid
+							+ `<td>${esc(it.owner || "–")}</td>`
+							+ `<td class="nw">${it.due ? fmtDate(it.due) : "–"}${isOverdue(it) ? `<span class="od">Overdue</span>` : ""}</td>`
+							+ `<td class="nw"><span class="st">${esc(it.status)}</span></td></tr>`;
+						}).join("");
+						const total = reg[TYPE[regTab].key].length;
+						const empty = $("#regEmpty");
+						empty.hidden = list.length > 0;
+						empty.textContent = total ? "No items match these filters." : `No ${TYPE[regTab].plural.toLowerCase()} recorded yet. Add one here or from a topic card.`;
+					}
+					
+					document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => { regTab = b.dataset.tab; renderRegister(); }));
+					$("#fTopic").addEventListener("change", renderRegister);
+					$("#fStatus").addEventListener("change", renderRegister);
+					$("#regAdd").addEventListener("click", () => openDlg(regTab, null, $("#fTopic").value));
+					$("#btnReg").addEventListener("click", () => $("#register").scrollIntoView({behavior:"smooth", block:"start"}));
+					$("#regBody").addEventListener("click", e => {
+						const j = e.target.closest(".jump");
+						if (j) { jumpTo(j.dataset.jump); return; }
+						const tr = e.target.closest("tr[data-rid]");
+						if (tr) openDlg(regTab, findItem(regTab, tr.dataset.rid));
+					});
+						$("#regBody").addEventListener("keydown", e => {
+							const tr = e.target.closest("tr[data-rid]");
+							if (tr && e.target === tr && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openDlg(regTab, findItem(regTab, tr.dataset.rid)); }
+						});
+						
+						/* add / edit dialog */
+						const dlg = $("#dlg"), form = $("#dlgForm");
+						const fe = n => form.elements[n];
+						fe("topic").innerHTML = `<option value="" disabled>Select a topic…</option>` + topicOpts;
+						fe("likelihood").innerHTML = [1,2,3,4,5].map(n => `<option value="${n}">${n} · ${LIKELIHOOD[n]}</option>`).join("");
+						fe("impact").innerHTML = [1,2,3,4,5].map(n => `<option value="${n}">${n} · ${IMPACT[n]}</option>`).join("");
+						fe("treatment").innerHTML = TREATMENT.map(t => `<option>${t}</option>`).join("");
+						fe("severity").innerHTML = Object.keys(SEV).map(k => `<option value="${k}">${SEV[k].name}</option>`).join("");
+						let editing = null;
+						
+						function updScore(){
+							const s = +fe("likelihood").value * +fe("impact").value;
+							$("#dlgScore").innerHTML = `<span>${s}</span>${chip(riskLevel(s))}`;
+						}
+						fe("likelihood").addEventListener("change", updScore);
+						fe("impact").addEventListener("change", updScore);
+						
+						function openDlg(type, it, topicPreset){
+							if (!TYPE[type]) return;
+							editing = {type, id: it ? it.id : null};
+							dlg.dataset.type = type;
+							$("#dlgKind").textContent = TYPE[type].name + (it ? " · " + it.id : "");
+							$("#dlgTitle").textContent = (it ? "Edit " : "New ") + TYPE[type].name.toLowerCase();
+							fe("status").innerHTML = STATUSES[type].map(s => `<option>${s}</option>`).join("");
+							const v = it || {topic: topicPreset || "", title:"", desc:"", likelihood:3, impact:3, treatment:"Mitigate",
+								source:"", severity:"medium", owner:"", due:"", status:"Open"};
+								["topic","title","desc","owner","due","status"].forEach(k => fe(k).value = v[k] ?? "");
+								fe("likelihood").value = v.likelihood || 3;
+								fe("impact").value = v.impact || 3;
+								fe("treatment").value = v.treatment || "Mitigate";
+								fe("source").value = v.source || "";
+								fe("severity").value = v.severity || "medium";
+								$("#dlgDel").hidden = !it;
+								disarmDel();
+								updScore();
+								dlg.showModal();
+								(v.topic ? fe("title") : fe("topic")).focus();
+						}
+						
+						function refreshAfterChange(topics){
+							topics.filter(Boolean).forEach(id => { const c = board.querySelector(`.card[data-id="${id}"]`); if (c) paintRF(c); });
+							renderRegister(); updateStats(); applySearch();
+						}
+						
+						form.addEventListener("submit", e => {
+							e.preventDefault();
+							if (!fe("topic").value) { fe("topic").focus(); fe("topic").reportValidity(); return; }
+							if (!fe("title").value.trim()) { fe("title").focus(); fe("title").reportValidity(); return; }
+							const {type, id} = editing;
+							const list = reg[TYPE[type].key];
+							let it = id ? findItem(type, id) : null;
+							const oldTopic = it ? it.topic : null;
+							if (!it) {
+								reg.seq[type] = (reg.seq[type] || 0) + 1;
+								it = {id: `${TYPE[type].prefix}-${String(reg.seq[type]).padStart(3, "0")}`, created: today};
+								list.push(it);
+							}
+							it.topic = fe("topic").value;
+							it.title = fe("title").value.trim();
+							it.desc = fe("desc").value.trim();
+							it.owner = fe("owner").value.trim();
+							it.due = fe("due").value;
+							it.status = fe("status").value;
+							if (type === "risk") { it.likelihood = +fe("likelihood").value; it.impact = +fe("impact").value; it.treatment = fe("treatment").value; }
+							else { it.source = fe("source").value.trim(); it.severity = fe("severity").value; }
+							saveReg(); dlg.close();
+							refreshAfterChange([oldTopic, it.topic]);
+						});
+						
+						const delBtn = $("#dlgDel");
+						function disarmDel(){ delBtn.classList.remove("armed"); delBtn.textContent = "Delete"; }
+						delBtn.addEventListener("click", () => {
+							if (!delBtn.classList.contains("armed")) { delBtn.classList.add("armed"); delBtn.textContent = "Click to confirm"; return; }
+							const {type, id} = editing;
+							const it = findItem(type, id);
+							reg[TYPE[type].key] = reg[TYPE[type].key].filter(x => x.id !== id);
+							// drop links from initiatives to the deleted item
+							plan.initiatives.forEach(i => { if (Array.isArray(i[TYPE[type].key])) i[TYPE[type].key] = i[TYPE[type].key].filter(x => x !== id); });
+							saveReg(); savePlan(); dlg.close();
+							refreshAfterChange([it && it.topic]);
+						});
+						$("#dlgCancel").addEventListener("click", () => dlg.close());
+						$("#dlgX").addEventListener("click", () => dlg.close());
+						dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+						
+						paintAllRF();
+						renderRegister();
+						
+						/* =====================================================================
+						 *   DIRECTION & ROADMAP: targets, owners, reviews, initiatives
+						 *   ===================================================================== */
+						const ISTATUS = ["Proposed","Planned","In progress","On hold","Completed","Cancelled"];
+						const ISTAT = {
+							"Proposed":    {c:"#c9cfd9",       t:"var(--text)"},
+							"Planned":     {c:"#a9bcdc",       t:"var(--text)"},
+							"In progress": {c:"var(--l5)",     t:"#fff"},
+							"On hold":     {c:"var(--sev-med)",t:"var(--text)"},
+							"Completed":   {c:"var(--l4)",     t:"#fff"},
+							"Cancelled":   {c:"#e4e7ec",       t:"var(--muted)"}
+						};
+						const OPEN_I = ["Proposed","Planned","In progress","On hold"];
+						const COVL = {covered:"Covered", partial:"Partly covered", none:"Not covered"};
+						const fmtEUR = n => {
+							if (n === "" || n == null || isNaN(+n)) return "–";
+							n = +n;
+							return n >= 1e6 ? "€" + (n / 1e6).toFixed(1).replace(/\.0$/, "") + "M" : n >= 1e3 ? "€" + Math.round(n / 1e3) + "k" : "€" + n;
+						};
+						const findInit = id => plan.initiatives.find(i => i.id === id);
+						const initsFor = id => plan.initiatives.filter(i => (i.topics || []).includes(id));
+						const plannedUplift = id => initsFor(id).filter(i => OPEN_I.includes(i.status)).reduce((a, i) => a + (+i.uplift || 0), 0);
+						function coverage(id){
+							const g = gapOf(id);
+							if (!g) return null;
+							const p = plannedUplift(id);
+							return p >= g ? "covered" : p > 0 ? "partial" : "none";
+						}
+						const lvlChip = n => `<span class="lvlchip"><i style="--c:var(--l${n});--ct:${n === 3 ? "var(--text)" : "#fff"}">${n}</i>${LEVELS[n].name}</span>`;
+						const istChip = s => { const st = ISTAT[s] || ISTAT.Proposed; return `<span class="ist" style="--c:${st.c};--ct:${st.t}">${esc(s)}</span>`; };
+						
+						/* ----- direction minimap ----- */
+						const dmap = $("#dmap");
+						dmap.innerHTML = FUNCS.map((f, fi) => `
+						<div class="mm-g${f.wide ? " wide" : ""}">
+						<div class="mm-h"><b><span>${pad2(fi+1)}</span>${esc(f.name)}</b><div class="mm-track"><i id="dmbar-${f.id}"></i><b class="tmark" id="dmtm-${f.id}"></b></div><em id="dmavg-${f.id}"></em></div>
+						<div class="mm-list"${f.wide ? ` style="grid-template-rows:repeat(${Math.ceil(f.topics.length / 2)},auto)"` : ""}>${f.topics.map(t =>
+							`<button type="button" class="mm-t dm-t" data-id="${t.id}" data-t="${esc(t.t)}"><span class="dm-ct"><i class="c">–</i><u>→</u><i class="t">–</i></span><span class="mm-n">${esc(SHORT[t.id] || t.t)}</span></button>`
+						).join("")}</div>
+						</div>`).join("");
+						
+						$("#dLegend").innerHTML =
+						`<span class="lg-ct"><i style="background:var(--l2);color:#fff">2</i>Current</span><span>→</span><span class="lg-ct"><i class="t" style="--tc:var(--l4)">4</i>Target</span><i class="sep"></i>`
+						+ [1,2,3,4,5].map(n => `<span><b style="background:var(--l${n})"></b>${n} · ${LEVELS[n].name}</span>`).join("");
+						$("#iLegend").innerHTML = ISTATUS.map(s => `<span><b style="background:${ISTAT[s].c}"></b>${s}</span>`).join("")
+						+ `<i class="sep"></i><span><b style="background:var(--accent);width:2px;border-radius:0"></b>Today</span>`;
+						
+						function paintDmap(){
+							dmap.querySelectorAll(".dm-t").forEach(b => {
+								const id = b.dataset.id, p = T(id), cur = ratings[id] || 0, tg = p.target || 0;
+								const g = gapOf(id), gs = gapStyle(g), rs = reviewState(id), cov = coverage(id);
+								const [ci, ti] = b.querySelectorAll(".dm-ct i");
+								ci.textContent = cur || "–";
+								ci.style.setProperty("--c", cur ? `var(--l${cur})` : "var(--bg-2)");
+								ci.style.setProperty("--ct", cur ? (cur === 3 ? "var(--text)" : "#fff") : "var(--muted)");
+								ti.textContent = tg || "–";
+								ti.style.setProperty("--tc", tg ? `var(--l${tg})` : "var(--line-3)");
+								b.title = `${id} · ${b.dataset.t}`
+								+ `\nCurrent: ${cur ? cur + " · " + LEVELS[cur].name : "not rated"}`
+								+ `\nTarget: ${tg ? tg + " · " + LEVELS[tg].name + (p.by ? " by " + qLabel(p.by) : "") : "not set"}`
+								+ (g > 0 ? `\nGap: ${g} level${g > 1 ? "s" : ""} (${COVL[cov].toLowerCase()} by initiatives)` : g === 0 ? "\nOn target" : "")
+								+ `\nOwner: ${p.owner || "not assigned"}`
+								+ `\n${REVIEW[rs].name}${p.reviewed ? " (last " + fmtDate(p.reviewed) + ")" : ""}`;
+							});
+							FUNCS.forEach(f => {
+								const cur = avgOf(f.topics.map(t => ratings[t.id])), tgt = avgOf(f.topics.map(t => T(t.id).target));
+								const bar = $("#dmbar-" + f.id);
+								bar.style.width = (cur / 5 * 100) + "%";
+								bar.style.background = cur ? `var(--l${Math.round(cur)})` : "";
+								setTick($("#dmtm-" + f.id), tgt);
+								const below = f.topics.filter(t => gapOf(t.id) > 0).length;
+								$("#dmavg-" + f.id).textContent = tgt ? `${cur ? cur.toFixed(1) : "–"} → ${tgt.toFixed(1)} · ${below} below target` : "No targets set";
+							});
+						}
+						dmap.addEventListener("click", e => { const b = e.target.closest(".dm-t"); if (b) focusPlanRow(b.dataset.id); });
+						
+						/* ----- direction stats ----- */
+						function updateDStats(){
+							const cur = avgOf(ALL.map(t => ratings[t.id])), tgt = avgOf(ALL.map(t => T(t.id).target));
+							const nT = ALL.filter(t => T(t.id).target).length;
+							$("#dAvg").innerHTML = cur || tgt ? `${cur ? cur.toFixed(1) : "–"}<small> → ${tgt ? tgt.toFixed(1) : "–"}</small>` : "–";
+							$("#dAvgLbl").textContent = `Targets set for ${nT}/${ALL.length} topics`;
+							const below = ALL.filter(t => gapOf(t.id) > 0);
+							const levels = below.reduce((a, t) => a + gapOf(t.id), 0);
+							const unc = below.filter(t => coverage(t.id) === "none").length, part = below.filter(t => coverage(t.id) === "partial").length;
+							$("#dGap").innerHTML = `${below.length}<small> topics below target</small>`;
+							$("#dGapLbl").innerHTML = `${levels} maturity level${levels === 1 ? "" : "s"} to close<br><span class="ks" data-s="fail"></span>${unc} not covered <span class="ks" data-s="risk"></span>${part} partly covered by initiatives`;
+							const I = plan.initiatives, cnt = s => I.filter(i => i.status === s).length;
+							const budget = I.filter(i => OPEN_I.includes(i.status)).reduce((a, i) => a + (+i.budget || 0), 0);
+							$("#dInit").innerHTML = `${cnt("In progress")}<small> in progress</small>`;
+							$("#dInitLbl").innerHTML = `${cnt("Planned")} planned · ${cnt("Proposed")} proposed · ${cnt("Completed")} completed<br>${fmtEUR(budget)} budget in open initiatives`;
+							const owned = ALL.filter(t => T(t.id).owner).length;
+							const rc = {ok:0, due:0, overdue:0, never:0};
+							ALL.forEach(t => rc[reviewState(t.id)]++);
+							$("#dOwn").innerHTML = `${owned}<small>/${ALL.length} with an owner</small>`;
+							$("#dOwnLbl").innerHTML = `<span class="ks" data-s="risk"></span>${rc.due} review due <span class="ks" data-s="fail"></span>${rc.overdue} overdue<br><span class="ks"></span>${rc.never} never reviewed`;
+						}
+						
+						/* ----- targets & ownership table ----- */
+						$("#pFn").innerHTML = `<option value="">All functions</option>` + FUNCS.map(f => `<option value="${f.id}">${esc(f.name)}</option>`).join("");
+						const cmpArr = (a, b) => { for (let i = 0; i < a.length; i++) { if (a[i] < b[i]) return -1; if (a[i] > b[i]) return 1; } return 0; };
+						const topicIdx = Object.fromEntries(ALL.map((t, i) => [t.id, i]));
+						function planRows(){
+							const show = $("#pShow").value, fn = $("#pFn").value, sort = $("#pSort").value;
+							const RV = {overdue:0, never:1, due:2, ok:3};
+							const key = {
+								gap:    t => [-(gapOf(t.id) ?? -1), topicIdx[t.id]],
+								topic:  t => [topicIdx[t.id]],
+								review: t => [RV[reviewState(t.id)], T(t.id).reviewed || "", topicIdx[t.id]],
+								owner:  t => [T(t.id).owner ? 0 : 1, (T(t.id).owner || "").toLowerCase(), topicIdx[t.id]],
+								by:     t => [T(t.id).by || "9999", topicIdx[t.id]]
+							}[sort] || (t => [topicIdx[t.id]]);
+							return ALL.filter(t => {
+								if (fn && !t.id.startsWith(fn + ".")) return false;
+								const g = gapOf(t.id);
+								if (show === "below") return g > 0;
+								if (show === "uncovered") return g > 0 && coverage(t.id) !== "covered";
+								if (show === "review") return reviewState(t.id) !== "ok";
+								if (show === "noowner") return !T(t.id).owner;
+								if (show === "notarget") return !T(t.id).target;
+								return true;
+							}).sort((a, b) => cmpArr(key(a), key(b)));
+						}
+						function planRowHTML(t){
+							const id = t.id, p = T(id), nm = esc(t.t);
+							return `<tr data-id="${id}">`
+							+ `<td class="ptopic"><button type="button" class="jump" data-jump="${id}" title="Show this topic on the Current state board">${id}</button><b>${nm}</b><small>${esc(t.fn)}</small></td>`
+							+ `<td class="pcur" data-cell="cur"></td>`
+							+ `<td class="parr" aria-hidden="true">→</td>`
+							+ `<td class="ptgt"><label class="tsel" data-cell="tsel"><i></i><select class="cell" data-f="target" aria-label="Target maturity for ${nm}"><option value="">No target</option>${[1,2,3,4,5].map(n => `<option value="${n}"${p.target == n ? " selected" : ""}>${LEVELS[n].name}</option>`).join("")}</select></label></td>`
+							+ `<td class="pby"><select class="cell" data-f="by" aria-label="Target date for ${nm}"><option value="">No date</option>${(p.by && !QUARTERS.includes(p.by) ? [p.by] : []).concat(QUARTERS).map(qq => `<option value="${qq}"${p.by === qq ? " selected" : ""}>${qLabel(qq)}</option>`).join("")}</select></td>`
+							+ `<td class="pgap nw" data-cell="gap"></td>`
+							+ `<td class="pown"><input class="cell" data-f="owner" value="${esc(p.owner || "")}" placeholder="Assign owner" maxlength="80" aria-label="Accountable owner for ${nm}"></td>`
+							+ `<td class="prev"><div class="rvrow"><input class="cell" type="date" data-f="reviewed" value="${p.reviewed || ""}" max="${today}" aria-label="Last reviewed date for ${nm}"><button type="button" class="mini" data-act="today" title="Mark as reviewed today">Today</button></div><span class="rvflag" data-cell="rv"></span></td>`
+							+ `<td class="pinit" data-cell="init"></td></tr>`;
+						}
+						function paintPlanRow(tr){
+							const id = tr.dataset.id, p = T(id), cur = ratings[id] || 0, tg = p.target || 0, g = gapOf(id), gs = gapStyle(g), rs = reviewState(id);
+							tr.querySelector('[data-cell="cur"]').innerHTML = cur
+							? `<span class="bigl"><i style="--c:var(--l${cur});--ct:${cur === 3 ? "var(--text)" : "#fff"}">${cur}</i>${LEVELS[cur].name}</span>`
+							: `<span class="bigl none"><i>–</i>Not rated</span>`;
+							const ts = tr.querySelector('[data-cell="tsel"]');
+							ts.classList.toggle("set", !!tg);
+							ts.style.setProperty("--tc", tg ? `var(--l${tg})` : "var(--line-3)");
+							ts.querySelector("i").textContent = tg || "–";
+							tr.querySelector('[data-cell="gap"]').innerHTML = gs
+							? `<span class="gapb" style="--c:${gs.c};--ct:${gs.t}">${g > 0 ? `+${g} level${g > 1 ? "s" : ""}` : "On target"}</span>`
+							: `<span class="muted">${!p.target ? "No target" : "Rate first"}</span>`;
+							const RVS = {ok:"Reviewed", due:"Due", overdue:"Overdue", never:"Never reviewed"};
+							tr.querySelector('[data-cell="rv"]').innerHTML = `<span class="rvdot" data-r="${rs}" style="--rc:${REVIEW[rs].c}"></span>${RVS[rs]}`
+							+ (p.reviewed && rs !== "ok" ? ` · ${monthsSince(p.reviewed)} mo ago` : "");
+							tr.querySelector('[data-cell="rv"]').title = REVIEW[rs].name;
+							const list = initsFor(id), cov = coverage(id);
+							tr.querySelector('[data-cell="init"]').innerHTML =
+							list.map(i => `<button type="button" class="ilink" data-init="${i.id}" title="${esc(i.title)} (${i.status})"><span class="isd" style="--c:${ISTAT[i.status].c}"></span>${i.id}${+i.uplift ? `<em>+${i.uplift}</em>` : ""}</button>`).join("")
+							+ (cov ? `<span class="cov" data-c="${cov}">${COVL[cov]}${cov === "partial" ? ` +${plannedUplift(id)}/${g}` : ""}</span>` : "")
+							+ `<button type="button" class="mini add" data-act="addinit" title="New initiative for this topic" aria-label="New initiative for ${esc(TOPIC[id].t)}">+</button>`;
+						}
+						function renderPlan(){
+							const rows = planRows();
+							const body = $("#planBody");
+							body.innerHTML = rows.map(planRowHTML).join("");
+							body.querySelectorAll("tr").forEach(paintPlanRow);
+							$("#planEmpty").hidden = rows.length > 0;
+							$("#pCount").textContent = `${rows.length} of ${ALL.length} topics`;
+						}
+						function focusPlanRow(id){
+							let tr = $(`#planBody tr[data-id="${id}"]`);
+							if (!tr) { $("#pShow").value = "all"; $("#pFn").value = ""; renderPlan(); tr = $(`#planBody tr[data-id="${id}"]`); }
+							if (!tr) return;
+							tr.scrollIntoView({behavior:"smooth", block:"center"});
+							tr.classList.remove("flash"); void tr.offsetWidth; tr.classList.add("flash");
+						}
+						// light refresh after a target/owner/review edit: keep the table order stable while editing
+						function afterPlanEdit(id){
+							const c = board.querySelector(`.card[data-id="${id}"]`);
+							if (c) paintCard(c);
+							const tr = $(`#planBody tr[data-id="${id}"]`);
+							if (tr) paintPlanRow(tr);
+							paintMinimap(); paintFnHeaders(); paintDmap(); updateDStats();
+						}
+						["pSort","pShow","pFn"].forEach(i => $("#" + i).addEventListener("change", renderPlan));
+						$("#planBody").addEventListener("change", e => {
+							const el = e.target.closest(".cell");
+							if (!el) return;
+							const id = el.closest("tr").dataset.id, f = el.dataset.f;
+							let v = el.value.trim();
+							if (f === "target") v = v ? +v : "";
+							if (f === "reviewed" && v > today) { v = today; el.value = today; }
+							setT(id, f, v);
+							afterPlanEdit(id);
+						});
+						$("#planBody").addEventListener("click", e => {
+							const j = e.target.closest(".jump");
+							if (j) { jumpTo(j.dataset.jump); return; }
+							const tr = e.target.closest("tr");
+							if (!tr) return;
+							const id = tr.dataset.id;
+							const a = e.target.closest("[data-act]");
+							if (a && a.dataset.act === "today") { setT(id, "reviewed", today); tr.querySelector('[data-f="reviewed"]').value = today; afterPlanEdit(id); return; }
+							if (a && a.dataset.act === "addinit") { openIDlg(null, {topics:[id]}); return; }
+							const il = e.target.closest("[data-init]");
+							if (il) { const it = findInit(il.dataset.init); if (it) openIDlg(it); }
+						});
+						
+						/* ----- initiatives: roadmap & list ----- */
+						let iView = "roadmap";
+						const dnum = s => { const [y, m, d] = s.split("-").map(Number); return Date.UTC(y, m - 1, d) / 864e5; };
+						const qiOf = s => { const [y, m] = s.split("-").map(Number); return y * 4 + Math.floor((m - 1) / 3); };
+						const qiStart = qi => `${Math.floor(qi / 4)}-${pad2((qi % 4) * 3 + 1)}-01`;
+						function iFiltered(){
+							const s = $("#iShow").value;
+							return plan.initiatives
+							.filter(i => !s || (s === "open" ? OPEN_I.includes(i.status) : i.status === s))
+							.slice().sort((a, b) => (a.start || a.end || "9999").localeCompare(b.start || b.end || "9999") || (a.end || "9999").localeCompare(b.end || "9999") || a.id.localeCompare(b.id));
+						}
+						function renderRoadmap(list){
+							const tq = qiOf(today);
+							const dates = list.flatMap(i => [i.start, i.end].filter(Boolean));
+							let q0 = Math.min(tq, ...dates.map(qiOf)), q1 = Math.max(tq + 3, ...dates.map(qiOf));
+							if (q1 - q0 < 7) q1 = q0 + 7;
+							const nq = q1 - q0 + 1, d0 = dnum(qiStart(q0)), d1 = dnum(qiStart(q1 + 1));
+							const pos = s => (dnum(s) - d0) / (d1 - d0) * 100;
+							const yrs = [];
+							for (let qi = q0; qi <= q1; qi++) { const y = Math.floor(qi / 4); if (!yrs.length || yrs[yrs.length - 1].y !== y) yrs.push({y, n:0}); yrs[yrs.length - 1].n++; }
+							const todayLine = `<i class="rm-today" style="left:${pos(today)}%"></i>`;
+							const head = `<div class="rm-lab rm-hl">Initiative</div>`
+							+ `<div class="rm-head" style="--nq:${nq}"><div class="rm-yrs">${yrs.map(y => `<span style="grid-column:span ${y.n}">${y.y}</span>`).join("")}</div>`
+							+ `<div class="rm-qs">${Array.from({length:nq}, (_, k) => `<span class="${q0 + k === tq ? "now" : ""}">Q${(q0 + k) % 4 + 1}</span>`).join("")}</div>${todayLine}</div>`;
+							const rows = list.map(i => {
+								const st = ISTAT[i.status] || ISTAT.Proposed;
+								let bar = `<span class="rm-ns">Not scheduled</span>`;
+								if (i.start || i.end) {
+									const s = i.start || i.end, e = i.end && i.end >= s ? i.end : s;
+									const left = pos(s), right = pos(e) + 100 / (d1 - d0);
+									bar = `<button type="button" class="rm-bar${i.status === "Cancelled" ? " x" : ""}" data-init="${i.id}" style="left:${left}%;width:${Math.max(right - left, 0.8)}%;--bc:${st.c};--bt:${st.t}" title="${esc(i.id + " · " + i.title)}&#10;${esc(i.status)} · ${fmtDate(s)} – ${fmtDate(e)}${(i.topics || []).length ? "&#10;Topics: " + i.topics.join(", ") : ""}">`
+									+ `<b>${i.id}</b>${(i.topics || []).map(t => `<span>${t}</span>`).join("")}${+i.uplift ? `<em>+${i.uplift}</em>` : ""}</button>`;
+								}
+								return `<div class="rm-lab" data-init="${i.id}" tabindex="0" role="button" aria-label="Edit ${esc(i.id + " " + i.title)}">`
+								+ `<div class="rm-l1"><span class="mono">${i.id}</span>${istChip(i.status)}</div><b title="${esc(i.title)}">${esc(i.title)}</b>`
+								+ `<small>${esc(i.owner || "No owner")} · ${fmtEUR(i.budget)}</small></div>`
+								+ `<div class="rm-tr" style="--nq:${nq}">${bar}${todayLine}</div>`;
+							}).join("");
+							$("#roadmap").innerHTML = `<div class="rm">${head}${rows || `<div class="rm-empty">${plan.initiatives.length ? "No initiatives match this filter." : "No initiatives yet. Add one to start building the roadmap."}</div>`}</div>`;
+						}
+						function renderInitTable(list){
+							$("#initBody").innerHTML = list.map(i => `<tr data-init="${i.id}" tabindex="0" class="${i.status === "Completed" || i.status === "Cancelled" ? "done" : ""}">`
+							+ `<td class="mono nw">${i.id}</td>`
+							+ `<td class="tt"><b>${esc(i.title)}</b>${i.desc ? `<small>${esc(i.desc)}</small>` : ""}</td>`
+							+ `<td>${(i.topics || []).map(t => `<button type="button" class="jump" data-jump="${t}" title="${esc(TOPIC[t] ? TOPIC[t].t : t)}">${t}</button>`).join(" ") || "–"}</td>`
+							+ `<td class="mono">${[...(i.risks || []), ...(i.findings || [])].join(", ") || "–"}</td>`
+							+ `<td>${esc(i.owner || "–")}</td>`
+							+ `<td class="nw">${fmtEUR(i.budget)}</td>`
+							+ `<td class="nw">${i.start ? fmtDate(i.start) : "–"} – ${i.end ? fmtDate(i.end) : "–"}</td>`
+							+ `<td class="nw">${+i.uplift ? "+" + i.uplift + " level" + (i.uplift > 1 ? "s" : "") : "–"}</td>`
+							+ `<td class="nw">${istChip(i.status)}</td></tr>`).join("");
+							const empty = $("#initEmpty");
+							empty.hidden = list.length > 0;
+							empty.textContent = plan.initiatives.length ? "No initiatives match this filter." : "No initiatives yet. Add one to start building the roadmap.";
+						}
+						function renderInits(){
+							document.querySelectorAll(".itab").forEach(b => { const on = b.dataset.iview === iView; b.classList.toggle("on", on); b.setAttribute("aria-selected", on ? "true" : "false"); });
+							$("#cntI").textContent = plan.initiatives.length;
+							$("#roadmap").hidden = iView !== "roadmap";
+							$("#initList").hidden = iView !== "list";
+							const list = iFiltered();
+							renderRoadmap(list);
+							renderInitTable(list);
+						}
+						document.querySelectorAll(".itab").forEach(b => b.addEventListener("click", () => { iView = b.dataset.iview; renderInits(); }));
+						$("#iShow").addEventListener("change", renderInits);
+						$("#iAdd").addEventListener("click", () => openIDlg(null));
+						function onInitClick(e){
+							const j = e.target.closest(".jump");
+							if (j) { e.stopPropagation(); jumpTo(j.dataset.jump); return; }
+							const el = e.target.closest("[data-init]");
+							if (el) { const it = findInit(el.dataset.init); if (it) openIDlg(it); }
+						}
+						function onInitKey(e){
+							const el = e.target.closest("[data-init]");
+							if (el && e.target === el && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); const it = findInit(el.dataset.init); if (it) openIDlg(it); }
+						}
+						["#roadmap", "#initBody"].forEach(s => { $(s).addEventListener("click", onInitClick); $(s).addEventListener("keydown", onInitKey); });
+						
+						$("#iCsv").addEventListener("click", () => {
+							const rows = [["ID","Title","Description","Status","Owner","Budget (EUR)","Start","End","Expected uplift (levels)","Topics","Risks","Audit findings","Created"],
+													...iFiltered().map(i => [i.id, i.title, i.desc, i.status, i.owner, i.budget, i.start, i.end, i.uplift,
+																	   (i.topics || []).join(" "), (i.risks || []).join(" "), (i.findings || []).join(" "), i.created])];
+																	   downloadCsv(rows, `ciso-program-management-initiatives-${today}.csv`);
+						});
+						
+						/* ----- initiative dialog ----- */
+						const idlg = $("#idlg"), iform = $("#iForm");
+						const iF = n => iform.elements.namedItem(n);
+						iF("status").innerHTML = ISTATUS.map(s => `<option>${s}</option>`).join("");
+						$("#iTopics").innerHTML = FUNCS.map(f => `<p class="pg">${esc(f.name)}</p>` + f.topics.map(t =>
+						`<label class="pk" title="${esc(t.t)}"><input type="checkbox" name="tp" value="${t.id}"><span><b>${t.id}</b><i>${esc(SHORT[t.id] || t.t)}</i></span></label>`).join("")).join("");
+						let iEditing = null;
+						function buildRFPicks(){
+							const items = [...reg.risks.map(it => ({k:"risk", it})), ...reg.findings.map(it => ({k:"finding", it}))]
+							.sort((a, b) => (isOpen(b.it) - isOpen(a.it)) || a.it.id.localeCompare(b.it.id));
+							$("#iRF").innerHTML = items.length ? items.map(({k, it}) =>
+							`<label class="pk"><input type="checkbox" name="rf" value="${k}:${it.id}"><span><b>${it.id}</b><i>${esc(it.title)}${isOpen(it) ? "" : " (closed)"}</i></span></label>`).join("")
+							: `<p class="muted" style="margin:2px">No risks or audit findings recorded yet.</p>`;
+						}
+						function openIDlg(it, preset){
+							iEditing = it ? it.id : null;
+							const v = it || Object.assign({title:"", desc:"", owner:"", status:"Planned", start:"", end:"", budget:"", uplift:1, topics:[], risks:[], findings:[]}, preset || {});
+							["title","desc","owner","start","end"].forEach(k => iF(k).value = v[k] || "");
+							iF("status").value = v.status || "Planned";
+							iF("budget").value = v.budget === "" || v.budget == null ? "" : v.budget;
+							iF("uplift").value = String(v.uplift ?? 0);
+							buildRFPicks();
+							iform.querySelectorAll('input[name="tp"]').forEach(c => c.checked = (v.topics || []).includes(c.value));
+							iform.querySelectorAll('input[name="rf"]').forEach(c => { const [k, id] = c.value.split(":"); c.checked = ((k === "risk" ? v.risks : v.findings) || []).includes(id); });
+							$("#iKind").textContent = "Initiative" + (it ? " · " + it.id : "");
+							$("#iTitle").textContent = it ? "Edit initiative" : "New initiative";
+							$("#iDel").hidden = !it;
+							disarmIDel();
+							$("#iErr").hidden = true;
+							idlg.showModal();
+							iF("title").focus();
+						}
+						iform.addEventListener("submit", e => {
+							e.preventDefault();
+							const err = (m, el) => { $("#iErr").textContent = m; $("#iErr").hidden = false; if (el) el.focus(); };
+							const title = iF("title").value.trim();
+							if (!title) return err("Give the initiative a title.", iF("title"));
+							const start = iF("start").value, end = iF("end").value;
+							if (start && end && end < start) return err("The end date is before the start date.", iF("end"));
+							const topics = [...iform.querySelectorAll('input[name="tp"]:checked')].map(c => c.value);
+							const rf = [...iform.querySelectorAll('input[name="rf"]:checked')].map(c => c.value.split(":"));
+							if (!topics.length && !rf.length) return err("Link the initiative to at least one topic, risk or audit finding.");
+							let it = iEditing ? findInit(iEditing) : null;
+							if (!it) {
+								plan.seq = (plan.seq || 0) + 1;
+								it = {id: `I-${String(plan.seq).padStart(3, "0")}`, created: today};
+								plan.initiatives.push(it);
+							}
+							const b = iF("budget").value;
+							Object.assign(it, {
+								title, desc: iF("desc").value.trim(), owner: iF("owner").value.trim(), status: iF("status").value, start, end,
+										  budget: b === "" ? "" : Math.max(0, Math.round(+b)), uplift: +iF("uplift").value,
+										  topics: ALL.map(t => t.id).filter(id => topics.includes(id)),
+										  risks: rf.filter(x => x[0] === "risk").map(x => x[1]),
+										  findings: rf.filter(x => x[0] === "finding").map(x => x[1])
+							});
+							savePlan(); idlg.close();
+							refreshDirection(); renderRegister();
+						});
+						const iDelBtn = $("#iDel");
+						function disarmIDel(){ iDelBtn.classList.remove("armed"); iDelBtn.textContent = "Delete"; }
+						iDelBtn.addEventListener("click", () => {
+							if (!iDelBtn.classList.contains("armed")) { iDelBtn.classList.add("armed"); iDelBtn.textContent = "Click to confirm"; return; }
+							plan.initiatives = plan.initiatives.filter(i => i.id !== iEditing);
+							savePlan(); idlg.close();
+							refreshDirection(); renderRegister();
+						});
+						$("#iCancel").addEventListener("click", () => idlg.close());
+						$("#iX").addEventListener("click", () => idlg.close());
+						idlg.addEventListener("click", e => { if (e.target === idlg) idlg.close(); });
+						
+						function refreshDirection(){
+							paintDmap(); updateDStats(); renderPlan(); renderInits();
+						}
+						
+						/* ----- views ----- */
+						let view = readJSON(VKEY) === "direction" ? "direction" : "current";
+						function setView(v, scroll){
+							view = v;
+							put(VKEY, v);
+							$("#view-current").hidden = v !== "current";
+							$("#view-direction").hidden = v !== "direction";
+							document.querySelectorAll(".vtab").forEach(b => { const on = b.dataset.view === v; b.classList.toggle("on", on); b.setAttribute("aria-selected", on ? "true" : "false"); });
+							$("#vbNote").textContent = v === "current" ? "Where the program stands today" : "Where the program is heading, and how it gets there";
+							if (v === "current" && typeof checkOverflow === "function" && wrapReady) checkOverflow();
+							if (scroll) { const top = $("#viewAnchor").getBoundingClientRect().top + window.scrollY; if (window.scrollY > top) window.scrollTo({top}); }
+						}
+						let wrapReady = false;
+						document.querySelectorAll(".vtab").forEach(b => b.addEventListener("click", () => setView(b.dataset.view, true)));
+						
+						/* ---------- stats ---------- */
+						function updateStats(){
+							paintMinimap();
+							const oR = reg.risks.filter(isOpen), oF = reg.findings.filter(isOpen);
+							const hc = oR.filter(it => SEV[sevOf("risk", it)].r >= 3).length + oF.filter(it => SEV[sevOf("finding", it)].r >= 3).length;
+							const od = [...oR, ...oF].filter(isOverdue).length;
+							$("#sRF").innerHTML = `${oR.length + oF.length}<small> open</small>`;
+							const pl = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+							$("#sRFLbl").innerHTML = `${pl(oR.length, "risk", "risks")} · ${pl(oF.length, "finding", "findings")}<br><span class="ks" data-s="fail"></span>${hc} high/critical <span class="ks" data-s="risk"></span>${od} overdue`;
+							const kc = {pass:0, risk:0, fail:0, none:0};
+							Object.keys(KDEF).forEach(kid => kc[kStatus(kid, kpiVals[kid]) || "none"]++);
+							const kTotal = Object.keys(KDEF).length;
+							$("#sKpi").innerHTML = `${kc.pass}<small>/${kTotal} passing</small>`;
+							$("#sKpiLbl").innerHTML = `<span class="ks" data-s="risk"></span>${kc.risk} at risk <span class="ks" data-s="fail"></span>${kc.fail} failing <span class="ks"></span>${kc.none} no data`;
+							const vals = ALL.map(t => ratings[t.id]).filter(Boolean);
+							$("#topicCount").textContent = ALL.length;
+							$("#sRated").innerHTML = `${vals.length}<small>/${ALL.length}</small>`;
+							if (vals.length) {
+								const avg = vals.reduce((a,b) => a+b, 0) / vals.length;
+								$("#sAvg").textContent = avg.toFixed(1);
+								$("#sAvgLbl").textContent = `Closest level: ${LEVELS[Math.round(avg)].name}`;
+							} else {
+								$("#sAvg").textContent = "–";
+								$("#sAvgLbl").textContent = "No ratings yet";
+							}
+							const counts = [0,0,0,0,0,0];
+							ALL.forEach(t => counts[ratings[t.id] || 0]++);
+							const pct = x => (x / ALL.length * 100) + "%";
+							$("#dist").innerHTML = [1,2,3,4,5].map(n => `<i style="width:${pct(counts[n])};background:var(--l${n})"></i>`).join("");
+							$("#distLegend").innerHTML = [1,2,3,4,5].map(n => `<span><b style="background:var(--l${n})"></b>${LEVELS[n].name} ${counts[n]}</span>`).join("")
+							+ `<span><b style="background:var(--bg-2);box-shadow:inset 0 0 0 1px var(--line-2)"></b>Not rated ${counts[0]}</span>`;
+							paintFnHeaders();
+							refreshDirection();
+						}
+						function paintFnHeaders(){
+							FUNCS.forEach(f => {
+								const v = f.topics.map(t => ratings[t.id]).filter(Boolean);
+								const avg = v.length ? v.reduce((a,b) => a+b, 0) / v.length : 0;
+								const tgt = avgOf(f.topics.map(t => T(t.id).target));
+								const bar = $("#bar-" + f.id);
+								bar.style.width = (avg / 5 * 100) + "%";
+								bar.style.background = v.length ? `var(--l${Math.round(avg)})` : "";
+								setTick($("#tm-" + f.id), tgt);
+								$("#txt-" + f.id).textContent = (v.length ? `Avg ${avg.toFixed(1)}` : "Not rated") + (tgt ? ` → target ${tgt.toFixed(1)}` : "") + ` · ${v.length}/${f.topics.length} rated`;
+							});
+						}
+						updateStats();
+						
+						/* ---------- search ---------- */
+						const q = $("#q");
+						q.addEventListener("input", applySearch);
+						function applySearch(){
+							const s = q.value.trim().toLowerCase();
+							let m = 0;
+							document.querySelectorAll(".card").forEach(c => {
+								const rfHit = !!s && ["risk","finding"].some(type => itemsFor(type, c.dataset.id).some(it =>
+								[it.id, it.title, it.desc, it.owner, it.source].join(" ").toLowerCase().includes(s)));
+								const hit = !s || c.dataset.search.includes(s) || rfHit;
+								c.classList.toggle("dim", !hit);
+								minimap.querySelector(`.mm-t[data-id="${c.dataset.id}"]`).classList.toggle("dim", !hit);
+								if (s && hit) m++;
+								c.querySelectorAll(".kw li").forEach(li => li.classList.toggle("hit", !!s && li.textContent.toLowerCase().includes(s)));
+							});
+							$("#qcount").textContent = s ? `${m} match${m === 1 ? "" : "es"}` : "";
+						}
+						
+						/* ---------- toolbar actions ---------- */
+						$("#btnExpand").addEventListener("click", () => document.querySelectorAll(".card").forEach(c => toggleDesc(c, true)));
+						$("#btnCollapse").addEventListener("click", () => document.querySelectorAll(".card").forEach(c => toggleDesc(c, false)));
+						$("#btnPrint").addEventListener("click", () => window.print());
+						
+						$("#btnCsv").addEventListener("click", () => {
+							const rows = [["Function","ID","Topic","Maturity level","Maturity name",
+							"KPI 1","KPI 1 pass/fail","KPI 1 value (%)","KPI 1 status",
+													  "KPI 2","KPI 2 pass/fail","KPI 2 value (%)","KPI 2 status","Open risks","Open audit findings",
+													  "Target level","Target by","Gap (levels)","Planned uplift (levels)","Initiatives","Accountable owner","Last reviewed","Review status"]];
+													  FUNCS.forEach(f => f.topics.forEach(t => {
+														  const n = ratings[t.id] || "";
+														  const row = [f.name, t.id, t.t, n, n ? LEVELS[n].name : "Not rated"];
+														  const p = T(t.id), g = gapOf(t.id);
+														  const planCols = [p.target || "", qLabel(p.by), g ?? "", plannedUplift(t.id) || "", initsFor(t.id).map(i => i.id).join(" "),
+																						  p.owner || "", p.reviewed || "", REVIEW[reviewState(t.id)].name];
+																						  [1,2].forEach(i => {
+																							  const kid = t.id + "-" + i, d = KDEF[kid], v = kpiVals[kid], s = kStatus(kid, v);
+																							  if (!d) { row.push("","","",""); return; }
+																							  row.push(d.n, d.dir === "up" ? `Pass >=${d.pass}% / Fail <${d.fail}%` : `Pass <=${d.pass}% / Fail >${d.fail}%`,
+																									   v ?? "", s ? KST_LABEL[s] : "No data");
+																						  });
+																						  row.push(itemsFor("risk", t.id).filter(isOpen).length, itemsFor("finding", t.id).filter(isOpen).length, ...planCols);
+																						  rows.push(row);
+													  }));
+													  downloadCsv(rows, `ciso-program-management-topics-${today}.csv`);
+						});
+						
+						$("#regCsv").addEventListener("click", () => {
+							const type = regTab, list = sortItems(type, reg[TYPE[type].key]);
+							const rows = type === "risk"
+							? [["ID","Topic ID","Topic","Title","Description","Likelihood","Impact","Score","Level","Treatment","Owner","Due","Status","Created"],
+							...list.map(it => [it.id, it.topic, TOPIC[it.topic] ? TOPIC[it.topic].t : "", it.title, it.desc, it.likelihood, it.impact,
+										it.likelihood * it.impact, SEV[sevOf(type, it)].name, it.treatment, it.owner, it.due, it.status, it.created])]
+										: [["ID","Topic ID","Topic","Title","Description","Source","Severity","Owner","Due","Status","Created"],
+										...list.map(it => [it.id, it.topic, TOPIC[it.topic] ? TOPIC[it.topic].t : "", it.title, it.desc, it.source,
+													SEV[sevOf(type, it)].name, it.owner, it.due, it.status, it.created])];
+													downloadCsv(rows, `ciso-program-management-${type === "risk" ? "risks" : "audit-findings"}-${today}.csv`);
+						});
+						
+						function downloadCsv(rows, name){
+							const csv = rows.map(r => r.map(v => `"${String(v ?? "").replace(/"/g,'""')}"`).join(",")).join("\r\n");
+							const url = URL.createObjectURL(new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8"}));
+							const a = document.createElement("a");
+							a.href = url; a.download = name;
+							document.body.appendChild(a); a.click(); a.remove();
+							setTimeout(() => URL.revokeObjectURL(url), 1000);
+						}
+						
+						let resetTimer = null;
+						const btnReset = $("#btnReset");
+						btnReset.addEventListener("click", () => {
+							if (!btnReset.classList.contains("danger")) {
+								btnReset.classList.add("danger");
+								btnReset.querySelector(".lbl").textContent = "Click to confirm";
+								resetTimer = setTimeout(disarm, 3500);
+								return;
+							}
+							clearTimeout(resetTimer); disarm();
+							ratings = {}; save();
+							kpiVals = {}; saveK();
+							document.querySelectorAll(".card").forEach(paintCard);
+							document.querySelectorAll(".kpi").forEach(k => { k.querySelector("input").value = ""; paintKpi(k); });
+							updateStats();
+						});
+						function disarm(){ btnReset.classList.remove("danger"); btnReset.querySelector(".lbl").textContent = "Reset"; }
+						
+						/* ---------- data set switcher ---------- */
+						function repaintAll(){
+							if (dlg.open) dlg.close();
+							if (idlg.open) idlg.close();
+							document.querySelectorAll(".card").forEach(paintCard);
+							document.querySelectorAll(".kpi").forEach(k => { k.querySelector("input").value = kpiVals[k.dataset.k] ?? ""; paintKpi(k); });
+							paintAllRF(); renderRegister(); updateStats(); applySearch();
+						}
+						function paintModeUI(){
+							document.querySelectorAll(".modes button").forEach(b => {
+								const on = b.dataset.mode === mode;
+								b.classList.toggle("on", on);
+								b.setAttribute("aria-checked", on ? "true" : "false");
+							});
+							const bar = $("#modebar");
+							bar.hidden = mode === "saved";
+							bar.dataset.mode = mode;
+							$("#modeMsg").innerHTML = mode === "example"
+							? `<b>You're viewing Example Corp.</b>, a fictional enterprise with sample ratings, KPIs, risks, audit findings, targets, owners and initiatives. Changes here are not saved and reset when you switch data sets.`
+							: `<b>You're viewing a blank map.</b> Changes here are not saved. Use "Keep as my saved data" to replace your saved data with this.`;
+							$("#dsName").textContent = mode === "example" ? " · Example Corp." : "";
+							disarmKeep();
+						}
+						function setMode(m){
+							if (!MODES[m] || m === mode) return;
+							mode = m;
+							put(MKEY, mode);
+							({ratings, kpis: kpiVals, reg, plan} = dataFor(mode));
+							repaintAll(); paintModeUI();
+						}
+						document.querySelectorAll(".modes button").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
+						$("#btnToSaved").addEventListener("click", () => setMode("saved"));
+						
+						const btnKeep = $("#btnKeep");
+						let keepTimer = null;
+						function disarmKeep(){ clearTimeout(keepTimer); btnKeep.classList.remove("danger"); btnKeep.textContent = "Keep as my saved data"; }
+						btnKeep.addEventListener("click", () => {
+							if (!btnKeep.classList.contains("danger")) {
+								btnKeep.classList.add("danger");
+								btnKeep.textContent = "Overwrite saved data?";
+								keepTimer = setTimeout(disarmKeep, 4000);
+								return;
+							}
+							put(KEY, ratings); put(KKEY, kpiVals); put(RKEY, reg); put(PKEY, plan);
+							mode = "saved"; put(MKEY, mode);
+							paintModeUI();
+						});
+						paintModeUI();
+						
+						/* ---------- scroll hint ---------- */
+						const wrapEl = $("#boardWrap");
+						function checkOverflow(){ $("#hint").classList.toggle("show", wrapEl.scrollWidth > wrapEl.clientWidth + 4); }
+						wrapReady = true;
+						const setVBH = () => document.documentElement.style.setProperty("--vb-h", $("#viewbar").offsetHeight + "px");
+						window.addEventListener("resize", () => { checkOverflow(); setVBH(); });
+						setView(view);
+						setVBH();
+						checkOverflow();
+						</script>
+						<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"385227da331e484aaad875799a42f3d2","r":1,"spa":2}' crossorigin="anonymous"></script>
+						</body>
+						</html>
+						
