@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -256,6 +255,7 @@
         <a href="#about">About</a>
         <a href="#expertise">Expertise</a>
         <a href="#projects">Projects</a>
+        <a href="./nist.html">NIST Framework</a>
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
       </nav>
