@@ -253,6 +253,7 @@
       <a class="brand" href="#home">Afzaal Shabbir</a>
       <nav aria-label="Main navigation">
         <a href="#about">About</a>
+        <a href="./soc-risk-calc.html">SOC ROI Calculator</a>
         <a href="#expertise">Expertise</a>
         <a href="#projects">Projects</a>
         <a href="./nist.html">NIST Framework</a>
