@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SOC Investment, TCO and Cybersecurity ROI Calculator for Software Houses, FMCG and Telecommunications businesses in Pakistan.">
+<title>SOC Investment & ROI Calculator | Cybersecurity Business Case</title>
+
+<style>
+:root {
+  --bg: #0b1220;
+  --panel: #121e30;
+  --panel2: #19283c;
+  --text: #e8eef7;
+  --muted: #9aabc0;
+  --accent: #38bdf8;
+  --green: #34d399;
+  --red: #fb7185;
+  --border: #293b52;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1.6;
+}
+.container {
+  width: min(1180px, 94%);
+  margin: auto;
+}
+header {
+  padding: 45px 0 30px;
+  border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+h1 { font-size: clamp(27px, 4vw, 42px); line-height: 1.2; margin: 12px 0; }
+h2 { font-size: 21px; margin-top: 0; }
+h3 { font-size: 16px; margin-top: 0; }
+p { color: var(--muted); }
+.subtitle { max-width: 750px; }
+section { margin: 28px 0; }
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 18px;
+}
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 14px;
+}
+.metric {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 17px;
+  min-width: 0;
+}
+.metric small, label {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+.metric strong {
+  display: block;
+  font-size: clamp(19px, 2.5vw, 27px);
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+}
+.green { color: var(--green); }
+.red { color: var(--red); }
+.accent { color: var(--accent); }
+label { margin-bottom: 7px; }
+input, select {
+  width: 100%;
+  padding: 11px 12px;
+  background: #0b1727;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+}
+input:focus, select:focus {
+  outline: 2px solid var(--accent);
+  border-color: var(--accent);
+}
+.field { margin-bottom: 17px; }
+.hint { font-size: 11px; color: var(--muted); margin-top: 5px; }
+button {
+  cursor: pointer;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 17px;
+  background: var(--accent);
+  color: #061522;
+  font-weight: bold;
+  font-size: 14px;
+}
+button.secondary {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th, td {
+  padding: 13px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+th { color: var(--accent); }
+td { color: var(--muted); }
+.chart-wrap { height: 260px; position: relative; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 110px 1fr 100px;
+  align-items: center;
+  gap: 10px;
+  margin: 17px 0;
+  font-size: 13px;
+}
+.bar {
+  height: 14px;
+  border-radius: 10px;
+  background: var(--accent);
+  min-width: 2px;
+}
+.notice {
+  border-left: 3px solid var(--accent);
+  padding: 12px 15px;
+  background: var(--panel2);
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 15px;
+}
+footer {
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+  padding: 25px 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media(max-width:850px) {
+  .cards { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width:650px) {
+  .grid { grid-template-columns: 1fr; }
+  .cards { grid-template-columns: repeat(2,1fr); }
+  .panel { padding: 16px; }
+  .bar-row { grid-template-columns: 85px 1fr 75px; }
+  table { font-size: 11px; }
+  th,td { padding: 10px 5px; }
+}
+@media print {
+  body { background: white; color: #111; }
+  .panel,.metric { background: white; border-color: #ccc; }
+  p,.metric small,label,td,footer { color: #444; }
+  .actions { display: none; }
+  header { padding-top: 15px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">Cybersecurity Investment & Risk Management</div>
+  <h1>SOC Investment & ROI Calculator</h1>
+  <p class="subtitle">
+    Evaluate Security Operations Center investment, compare SIEM and MDR
+    operating models, estimate Total Cost of Ownership, and quantify
+    potential cybersecurity risk reduction.
+  </p>
+  <p><strong class="accent">Financial currency: Pakistani Rupee (PKR)</strong></p>
+</header>
+
+<section class="panel">
+  <h2>01. Business Profile & Investment Assumptions</h2>
+  <div class="grid">
+    <div class="field">
+      <label for="sector">Industry sector</label>
+      <select id="sector">
+        <option value="software">Software House / IT Services</option>
+        <option value="fmcg">FMCG / Manufacturing</option>
+        <option value="telecom">Telecommunications</option>
+        <option value="custom">Other / Custom</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="model">SOC operating model</label>
+      <select id="model">
+        <option value="wazuh">Open Source SIEM - Wazuh</option>
+        <option value="splunk">Commercial SIEM - Splunk ES</option>
+        <option value="mdr">Managed Detection & Response (MDR)</option>
+        <option value="hybrid">Hybrid / Co-managed SOC</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="period">Investment evaluation period (years)</label>
+      <select id="period">
+        <option value="1">1 Year</option>
+        <option value="3" selected>3 Years</option>
+        <option value="5">5 Years</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="endpoints">Estimated monitored endpoints</label>
+      <input type="number" id="endpoints" value="150" min="1">
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>02. Cyber Risk Assessment</h2>
+  <div class="grid">
+    <div class="field">
+      <label for="loss">Estimated annual cyber loss exposure (PKR)</label>
+      <input type="number" id="loss" value="4000000" min="0" step="100000">
+      <div class="hint">Expected annualized loss, not the maximum possible breach cost.</div>
+    </div>
+
+    <div class="field">
+      <label for="reduction">Estimated risk reduction (%)</label>
+      <input type="number" id="reduction" value="30" min="0" max="100">
+      <div class="hint">Estimated reduction in annual expected loss attributable to the proposed SOC controls.</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>03. SOC Investment & Operating Costs</h2>
+  <div class="grid">
+    <div class="field">
+      <label for="setup">Initial implementation cost (PKR)</label>
+      <input type="number" id="setup" value="500000" min="0">
+    </div>
+
+    <div class="field">
+      <label for="annual">Annual recurring SOC cost (PKR)</label>
+      <input type="number" id="annual" value="2600000" min="0">
+    </div>
+  </div>
+  <div class="notice">
+    Include licensing, infrastructure, data retention, staff allocation,
+    support, MDR subscriptions, and other applicable operating expenses.
+    Avoid double-counting costs already covered by existing contracts.
+  </div>
+</section>
+
+<section>
+  <h2>04. Financial Performance Dashboard</h2>
+  <div class="cards">
+    <div class="metric">
+      <small>Annual modeled benefit</small>
+      <strong class="green" id="benefit">PKR 0</strong>
+    </div>
+    <div class="metric">
+      <small>Total investment TCO</small>
+      <strong id="tco">PKR 0</strong>
+    </div>
+    <div class="metric">
+      <small>Cumulative net benefit</small>
+      <strong id="net">PKR 0</strong>
+    </div>
+    <div class="metric">
+      <small>Investment ROI</small>
+      <strong id="roi">0%</strong>
+    </div>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="panel">
+    <h2>05. ROI & Break-even Analysis</h2>
+    <div class="metric">
+      <small>Annual net financial benefit</small>
+      <strong id="annualNet">PKR 0</strong>
+    </div>
+    <div class="metric" style="margin-top:12px">
+      <small>Estimated break-even period</small>
+      <strong id="breakeven">Not achieved</strong>
+    </div>
+    <div class="metric" style="margin-top:12px">
+      <small>Expected annual loss after SOC</small>
+      <strong id="residual">PKR 0</strong>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>06. Investment Cost Breakdown</h2>
+    <div class="bar-row">
+      <span>Implementation</span>
+      <div class="bar" id="setupBar"></div>
+      <strong id="setupPct">0%</strong>
+    </div>
+    <div class="bar-row">
+      <span>Operations</span>
+      <div class="bar" id="opsBar"></div>
+      <strong id="opsPct">0%</strong>
+    </div>
+    <p class="hint">Relative share of total evaluation-period investment.</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>07. Three-Year Investment Comparison</h2>
+  <p>Illustrative recurring-cost presets. Select a model above to load its planning assumptions. All figures can be edited.</p>
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Investment model</th>
+          <th>Annual cost</th>
+          <th>Setup cost</th>
+          <th>Three-year TCO</th>
+        </tr>
+      </thead>
+      <tbody id="comparison"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>08. Executive Investment Assessment</h2>
+  <p id="assessment">Complete the assumptions to generate an assessment.</p>
+  <div class="notice" id="recommendation"></div>
+</section>
+
+<section class="panel">
+  <h2>09. Business Case Summary</h2>
+  <div id="summary" aria-live="polite"></div>
+  <div class="actions">
+    <button onclick="window.print()">Print / Save as PDF</button>
+    <button class="secondary" onclick="downloadCSV()">Export Financial Model (CSV)</button>
+    <button class="secondary" onclick="resetModel()">Reset Assumptions</button>
+  </div>
+</section>
+
+<footer>
+  <strong>Cybersecurity Architecture & Risk Management Portfolio</strong>
+  <p>
+    SOC investment estimates are illustrative planning assumptions.
+    ROI represents modeled expected-loss reduction, not guaranteed savings.
+    Validate all costs, operational capabilities, and risk assumptions
+    before making an investment decision.
+  </p>
+  <p>Developed as an educational and executive decision-support model.</p>
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+// All financial values are in PKR.
+const presets = {
+  software: {
+    loss: 4000000, reduction: 30, endpoints: 150
+  },
+  fmcg: {
+    loss: 15000000, reduction: 30, endpoints: 300
+  },
+  telecom: {
+    loss: 120000000, reduction: 35, endpoints: 1000
+  },
+  custom: {
+    loss: 5000000, reduction: 25, endpoints: 100
+  }
+};
+
+const models = {
+  wazuh: { name: "Wazuh Open Source SIEM", annual: 2600000, setup: 500000 },
+  splunk: { name: "Splunk Enterprise Security", annual: 6800000, setup: 1500000 },
+  mdr: { name: "Managed Detection & Response", annual: 2400000, setup: 200000 },
+  hybrid: { name: "Hybrid / Co-managed SOC", annual: 6000000, setup: 1000000 }
+};
+
+const $ = id => document.getElementById(id);
+
+const money = value =>
+  new Intl.NumberFormat("en-PK", {
+    style: "currency",
+    currency: "PKR",
+    maximumFractionDigits: 0
+  }).format(Number.isFinite(value) ? value : 0);
+
+const number = id => {
+  const value = Number($(id).value);
+  return Number.isFinite(value) ? Math.max(0, value) : 0;
+};
+
+function getInputs() {
+  return {
+    sector: $("sector").value,
+    model: $("model").value,
+    years: Math.max(1, number("period")),
+    endpoints: number("endpoints"),
+    loss: number("loss"),
+    reduction: Math.min(100, number("reduction")),
+    setup: number("setup"),
+    annual: number("annual")
+  };
+}
+
+function calculate() {
+  const x = getInputs();
+
+  const benefit = x.loss * x.reduction / 100;
+  const residual = x.loss - benefit;
+  const tco = x.setup + x.annual * x.years;
+  const totalBenefit = benefit * x.years;
+  const net = totalBenefit - tco;
+  const annualNet = benefit - x.annual;
+  const roi = tco > 0 ? (net / tco) * 100 : 0;
+
+  // Break-even includes the initial implementation cost.
+  const breakeven = annualNet > 0
+    ? x.setup / annualNet
+    : Infinity;
+
+  return {
+    ...x, benefit, residual, tco, totalBenefit,
+    net, annualNet, roi, breakeven
+  };
+}
+
+function setText(id, value) {
+  $(id).textContent = value;
+}
+
+function updateDashboard() {
+  const r = calculate();
+
+  setText("benefit", money(r.benefit));
+  setText("tco", money(r.tco));
+  setText("net", money(r.net));
+  setText("roi", r.roi.toFixed(1) + "%");
+  setText("annualNet", money(r.annualNet));
+  setText("residual", money(r.residual));
+
+  setText(
+    "breakeven",
+    Number.isFinite(r.breakeven) && r.breakeven <= r.years
+      ? r.breakeven.toFixed(1) + " years"
+      : "Not achieved within period"
+  );
+
+  $("net").className = r.net >= 0 ? "green" : "red";
+  $("roi").className = r.roi >= 0 ? "green" : "red";
+  $("annualNet").className = r.annualNet >= 0 ? "green" : "red";
+
+  const setupShare = r.tco > 0 ? r.setup / r.tco * 100 : 0;
+  const opsShare = r.tco > 0
+    ? (r.annual * r.years) / r.tco * 100 : 0;
+
+  $("setupBar").style.width = setupShare + "%";
+  $("opsBar").style.width = opsShare + "%";
+  setText("setupPct", setupShare.toFixed(1) + "%");
+  setText("opsPct", opsShare.toFixed(1) + "%");
+
+  updateAssessment(r);
+  updateSummary(r);
+}
+
+function updateAssessment(r) {
+  const positive = r.net >= 0;
+  const payback = Number.isFinite(r.breakeven) &&
+    r.breakeven <= r.years;
+
+  setText("assessment",
+    positive
+      ? "The selected SOC investment produces a positive modeled financial return under the current assumptions."
+      : "The selected SOC investment does not recover its modeled cost through expected-loss reduction within the selected evaluation period."
+  );
+
+  $("recommendation").textContent = positive
+    ? "Recommendation: Proceed to a validated business case and procurement assessment. Confirm the assumptions, service coverage, and operational capabilities before approval."
+    : "Recommendation: Review the investment scope, risk assumptions, and operating costs. Consider a phased MDR deployment or a smaller pilot. A negative direct financial ROI does not automatically mean the investment is unjustified where regulatory, contractual, or resilience requirements apply.";
+
+  if (!payback) {
+    $("recommendation").textContent +=
+      " Financial break-even is not reached within the selected evaluation period.";
+  }
+}
+
+function updateSummary(r) {
+  const sectorNames = {
+    software: "Software House / IT Services",
+    fmcg: "FMCG / Manufacturing",
+    telecom: "Telecommunications",
+    custom: "Other / Custom"
+  };
+
+  const modelName = models[r.model].name;
+
+  $("summary").innerHTML = `
+    <table>
+      <tr><th>Business sector</th><td>${sectorNames[r.sector]}</td></tr>
+      <tr><th>Selected operating model</th><td>${modelName}</td></tr>
+      <tr><th>Monitored endpoints</th><td>${r.endpoints.toLocaleString("en-PK")}</td></tr>
+      <tr><th>Evaluation period</th><td>${r.years} years</td></tr>
+      <tr><th>Expected annual cyber loss</th><td>${money(r.loss)}</td></tr>
+      <tr><th>Assumed risk reduction</th><td>${r.reduction}%</td></tr>
+      <tr><th>Annual modeled benefit</th><td>${money(r.benefit)}</td></tr>
+      <tr><th>Initial implementation cost</th><td>${money(r.setup)}</td></tr>
+      <tr><th>Annual operating cost</th><td>${money(r.annual)}</td></tr>
+      <tr><th>Total Cost of Ownership</th><td><strong>${money(r.tco)}</strong></td></tr>
+      <tr><th>Modeled cumulative benefit</th><td>${money(r.totalBenefit)}</td></tr>
+      <tr><th>Cumulative net benefit</th><td>${money(r.net)}</td></tr>
+      <tr><th>Modeled ROI</th><td><strong>${r.roi.toFixed(1)}%</strong></td></tr>
+    </table>
+    <p class="hint">ROI = (Cumulative modeled benefit - Total investment) / Total investment × 100.</p>
+  `;
+}
+
+function updateComparison() {
+  const years = Math.max(1, number("period"));
+  $("comparison").innerHTML = Object.values(models).map(m => `
+    <tr>
+      <td>${m.name}</td>
+      <td>${money(m.annual)}</td>
+      <td>${money(m.setup)}</td>
+      <td>${money(m.setup + m.annual * years)}</td>
+    </tr>
+  `).join("");
+}
+
+function loadSector() {
+  const p = presets[$("sector").value];
+  $("loss").value = p.loss;
+  $("reduction").value = p.reduction;
+  $("endpoints").value = p.endpoints;
+  updateDashboard();
+}
+
+function loadModel() {
+  const m = models[$("model").value];
+  $("annual").value = m.annual;
+  $("setup").value = m.setup;
+  updateDashboard();
+}
+
+function resetModel() {
+  $("sector").value = "software";
+  $("model").value = "wazuh";
+  $("period").value = "3";
+  $("endpoints").value = 150;
+  $("loss").value = presets.software.loss;
+  $("reduction").value = presets.software.reduction;
+  $("annual").value = models.wazuh.annual;
+  $("setup").value = models.wazuh.setup;
+  updateDashboard();
+}
+
+function downloadCSV() {
+  const r = calculate();
+  const rows = [
+    ["SOC Investment Model", "Value"],
+    ["Currency", "PKR"],
+    ["Sector", r.sector],
+    ["Model", models[r.model].name],
+    ["Evaluation Period (Years)", r.years],
+    ["Monitored Endpoints", r.endpoints],
+    ["Annual Expected Cyber Loss", r.loss],
+    ["Risk Reduction (%)", r.reduction],
+    ["Annual Modeled Benefit", r.benefit],
+    ["Implementation Cost", r.setup],
+    ["Annual Operating Cost", r.annual],
+    ["Three-Year / Selected Period TCO", r.tco],
+    ["Cumulative Modeled Benefit", r.totalBenefit],
+    ["Cumulative Net Benefit", r.net],
+    ["ROI (%)", r.roi.toFixed(2)],
+    ["Residual Annual Expected Loss", r.residual]
+  ];
+
+  const csv = rows.map(row =>
+    row.map(value => `"${String(value).replace(/"/g, '""')}"`).join(",")
+  ).join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "SOC-Investment-Model.csv";
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+// Input events
+["loss", "reduction", "setup", "annual", "period", "endpoints"]
+  .forEach(id => $(id).addEventListener("input", () => {
+    updateDashboard();
+    updateComparison();
+  }));
+
+$("sector").addEventListener("change", loadSector);
+$("model").addEventListener("change", loadModel);
+$("period").addEventListener("change", updateComparison);
+
+// Initialize
+updateDashboard();
+updateComparison();
+</script>
+</body>
+</html>
