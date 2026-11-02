@@ -274,7 +274,7 @@
           and deliver change that creates measurable business value.
         </p>
         <div class="actions">
-          <a class="button" href="#projects">View selected work</a>
+          <a class="button" href="./indi.html">Work In Progress</a>
           <a class="button secondary" href="mailto:afzaal01shabbir@gmail.com">Contact me</a>
         </div>
       </div>
