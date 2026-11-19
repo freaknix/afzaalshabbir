@@ -255,7 +255,7 @@
         <!-- <a href="#about">About</a>  -->
         <a href="./soc-risk-calc.html">SOC ROI Calculator</a>
         <!-- <a href="#expertise">Expertise</a> -->
-        <a href="#projects">Projects</a>
+        <a href="./llm-casestudy.html">LLM Case Study</a>
         <a href="./nist.html">NIST Framework</a>
         <a href="#experience">Experience</a>
         <a href="#contact">Contact</a>
